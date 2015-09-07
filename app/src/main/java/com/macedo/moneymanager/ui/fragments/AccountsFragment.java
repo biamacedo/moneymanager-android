@@ -1,13 +1,14 @@
 package com.macedo.moneymanager.ui.fragments;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,7 +20,6 @@ import com.macedo.moneymanager.adapters.AccountItemListAdapter;
 import com.macedo.moneymanager.database.AccountsDatasource;
 import com.macedo.moneymanager.models.Account;
 import com.macedo.moneymanager.ui.EditAccountActivity;
-import com.macedo.moneymanager.ui.MainActivity;
 
 import java.util.ArrayList;
 
@@ -50,11 +50,11 @@ public class AccountsFragment extends Fragment {
      * @return A new instance of fragment AccountsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AccountsFragment newInstance(int sectionNumber) {
+    public static AccountsFragment newInstance() {
         AccountsFragment fragment = new AccountsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        fragment.setArguments(args);
+        //Bundle args = new Bundle();
+        //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        //fragment.setArguments(args);
         return fragment;
     }
 
@@ -111,6 +111,18 @@ public class AccountsFragment extends Fragment {
         inflater.inflate(R.menu.menu_account_list_fragment, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_new_account) {
+            Intent intent = new Intent(getActivity(), EditAccountActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -121,8 +133,6 @@ public class AccountsFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(
-                getArguments().getInt(ARG_SECTION_NUMBER));
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {

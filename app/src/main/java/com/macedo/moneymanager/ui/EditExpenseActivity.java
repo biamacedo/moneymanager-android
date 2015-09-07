@@ -30,12 +30,12 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     public static final String TAG = EditExpenseActivity.class.getSimpleName();
 
-    private  EditText titleEditText;
-    private  EditText descriptionEditText;
-    private  EditText dateEditText;
-    private  EditText amountEditText;
+    private EditText titleEditText;
+    private EditText descriptionEditText;
+    private EditText dateEditText;
+    private EditText amountEditText;
     private Spinner categorySpinner;
-    private Button createNewExpense;
+    private Button editExpenseButton;
     private ImageView calendarIcon;
 
     private Expense mCurrentExpense;
@@ -48,14 +48,14 @@ public class EditExpenseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_expense);
+        setContentView(R.layout.activity_edit_expense);
 
-        titleEditText  = (EditText) findViewById(R.id.titleEditText);
+        titleEditText  = (EditText) findViewById(R.id.nameEditText);
         descriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
         amountEditText = (EditText) findViewById(R.id.amountEditText);
         dateEditText = (EditText) findViewById(R.id.dateEditText);
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
-        createNewExpense = (Button) findViewById(R.id.newExpenseButton);
+        editExpenseButton = (Button) findViewById(R.id.editExpenseButton);
         calendarIcon = (ImageView) findViewById(R.id.calendarIcon);
 
         mCategoryItems = categoriesDatasource.read(CategoriesDatasource.CATEGORY_TYPE_EXPENSE);
@@ -75,7 +75,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             }
         }
 
-        createNewExpense.setOnClickListener(new View.OnClickListener() {
+        editExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = titleEditText.getText().toString();
@@ -89,17 +89,21 @@ public class EditExpenseActivity extends AppCompatActivity {
                 }
                 Category category = mCategoryItems.get(categorySpinner.getSelectedItemPosition());
 
-                mCurrentExpense.setTitle(title);
-                mCurrentExpense.setDescription(description);
-                mCurrentExpense.setCategory(category);
-                mCurrentExpense.setAmount(amount);
-                mCurrentExpense.setDate(date);
+                if (mCurrentExpense == null){
+                    mCurrentExpense = new Expense(title, description, category, amount, date);
+                } else {
+                    mCurrentExpense.setTitle(title);
+                    mCurrentExpense.setDescription(description);
+                    mCurrentExpense.setCategory(category);
+                    mCurrentExpense.setAmount(amount);
+                    mCurrentExpense.setDate(date);
+                }
 
                 saveExpense();
 
                 finish();
 
-                Toast.makeText(EditExpenseActivity.this, "New Registry Created", Toast.LENGTH_LONG).show();
+                Toast.makeText(EditExpenseActivity.this, "Expense Saved!", Toast.LENGTH_LONG).show();
             }
         });
 

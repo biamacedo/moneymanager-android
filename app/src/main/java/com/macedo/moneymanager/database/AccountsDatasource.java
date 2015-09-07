@@ -46,7 +46,7 @@ public class AccountsDatasource {
 
     public ArrayList<Account> readAccounts(){
         SQLiteDatabase database = open();
-        ArrayList<Account> accounts = new ArrayList<Account>();
+        ArrayList<Account> accounts = new ArrayList<>();
 
         Cursor cursor = database.query(
                 DatabaseSQLiteHelper.ACCOUNTS_TABLE,
@@ -83,9 +83,10 @@ public class AccountsDatasource {
                             " WHERE " + BaseColumns._ID +" = " + account.getCategory().getId(), null);
             if(cursor.moveToFirst()){
                 do{
-                    account.getCategory().setName(DatabaseSQLiteHelper.COLUMN_CATEGORY_NAME);
-                    account.getCategory().setType(DatabaseSQLiteHelper.COLUMN_CATEGORY_TYPE);
-                    account.getCategory().setIconName(DatabaseSQLiteHelper.COLUMN_CATEGORY_ICON_NAME);
+                    account.getCategory().setId(DatabaseUtils.getIntFromColumnName(cursor, BaseColumns._ID));
+                    account.getCategory().setName(DatabaseUtils.getStringFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_CATEGORY_NAME));
+                    account.getCategory().setType(DatabaseUtils.getStringFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_CATEGORY_TYPE));
+                    account.getCategory().setIconName(DatabaseUtils.getStringFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_CATEGORY_ICON_NAME));
                 }while (cursor.moveToNext());
             }
             cursor.close();

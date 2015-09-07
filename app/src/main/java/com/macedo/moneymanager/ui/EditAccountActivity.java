@@ -2,11 +2,12 @@ package com.macedo.moneymanager.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,37 +17,33 @@ import com.macedo.moneymanager.database.AccountsDatasource;
 import com.macedo.moneymanager.database.CategoriesDatasource;
 import com.macedo.moneymanager.models.Account;
 import com.macedo.moneymanager.models.Category;
+import com.macedo.moneymanager.ui.fragments.AccountsFragment;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class EditAccountActivity extends AppCompatActivity {
 
     public static final String TAG = EditAccountActivity.class.getSimpleName();
 
-    private  EditText titleEditText;
-    private  EditText amountEditText;
+    private EditText nameEditText;
+    private EditText amountEditText;
     private Spinner categorySpinner;
-    private Button createNewAccount;
-    private ImageView calendarIcon;
+    private Button editAccountButton;
 
     private Account mCurrentAccount;
 
     public CategoriesDatasource categoriesDatasource = new CategoriesDatasource(this);
     private ArrayList<Category> mCategoryItems = new ArrayList<Category>();
 
-    public SimpleDateFormat mDateFormatter = new SimpleDateFormat("MM/dd/yyyy");
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_accounts);
+        setContentView(R.layout.activity_edit_account);
 
-        titleEditText  = (EditText) findViewById(R.id.titleEditText);
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
         amountEditText = (EditText) findViewById(R.id.amountEditText);
         categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
-        createNewAccount = (Button) findViewById(R.id.newExpenseButton);
-        calendarIcon = (ImageView) findViewById(R.id.calendarIcon);
+        editAccountButton = (Button) findViewById(R.id.editAccountButton);
 
         mCategoryItems = categoriesDatasource.read(CategoriesDatasource.CATEGORY_TYPE_ACCOUNT);
 
@@ -55,32 +52,48 @@ public class EditAccountActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null){
-            mCurrentAccount = intent.getParcelableExtra(DailyExpensesActivity.EXPENSE_EXTRA);
+            mCurrentAccount = intent.getParcelableExtra(AccountsFragment.ACCOUNT_EXTRA);
             if (mCurrentAccount != null) {
-                titleEditText.setText(mCurrentAccount.getName());
+                nameEditText.setText(mCurrentAccount.getName());
                 amountEditText.setText(String.valueOf(mCurrentAccount.getAmount()));
                 categorySpinner.setSelection(adapter.getPosition(mCurrentAccount.getCategory()));
             }
         }
 
-        createNewAccount.setOnClickListener(new View.OnClickListener() {
+        editAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = titleEditText.getText().toString();
+                String name = nameEditText.getText().toString();
                 Double amount = Double.parseDouble(amountEditText.getText().toString());
                 Category category = mCategoryItems.get(categorySpinner.getSelectedItemPosition());
 
-                mCurrentAccount.setName(title);
-                mCurrentAccount.setCategory(category);
-                mCurrentAccount.setAmount(amount);
+                if (mCurrentAccount == null){
+                    mCurrentAccount = new Account(name, category, amount);
+                } else {
+                    mCurrentAccount.setName(name);
+                    mCurrentAccount.setCategory(category);
+                    mCurrentAccount.setAmount(amount);
+                }
+
 
                 saveExpense();
 
                 finish();
 
-                Toast.makeText(EditAccountActivity.this, "New Registry Created", Toast.LENGTH_LONG).show();
+                Toast.makeText(EditAccountActivity.this, "Account Saved!", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()== android.R.id.home) {
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            NavUtils.navigateUpTo(this, intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

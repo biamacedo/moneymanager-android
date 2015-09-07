@@ -20,6 +20,13 @@ public class Account implements Parcelable{
         mAmount = amount;
     }
 
+    public Account(String name, Category category, Double amount) {
+        mId = -1;
+        mName = name;
+        mCategory = category;
+        mAmount = amount;
+    }
+
     public int getId() {
         return mId;
     }

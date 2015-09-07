@@ -49,7 +49,7 @@ public class AccountItemListAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.accounts_list_item, null);
 
             holder = new ViewHolder();
-            holder.categoryIcon = (ImageView) convertView.findViewById(R.id.categoryIcon);
+            holder.accountIcon = (ImageView) convertView.findViewById(R.id.categoryIcon);
             holder.accountNameLabel = (TextView) convertView.findViewById(R.id.accountNameLabel);
             holder.accountAmountLabel = (TextView) convertView.findViewById(R.id.accountAmountLabel);
             convertView.setTag(holder);
@@ -62,12 +62,12 @@ public class AccountItemListAdapter extends BaseAdapter {
         if (account.getCategory().getIconName() != null){
             try {
                 int iconDrawable = mContext.getResources().getIdentifier(account.getCategory().getIconName(), "drawable", mContext.getPackageName());
-                holder.categoryIcon.setImageResource(iconDrawable);
+                holder.accountIcon.setImageResource(iconDrawable);
             } catch (Exception e){
-                holder.categoryIcon.setImageResource(R.drawable.ic_question);
+                holder.accountIcon.setImageResource(R.drawable.ic_question);
             }
         } else {
-            holder.categoryIcon.setImageResource(R.drawable.ic_question);
+            holder.accountIcon.setImageResource(R.drawable.ic_question);
         }
 
         holder.accountNameLabel.setText(account.getName());
@@ -77,7 +77,7 @@ public class AccountItemListAdapter extends BaseAdapter {
     }
 
     private static class ViewHolder {
-        ImageView categoryIcon;
+        ImageView accountIcon;
         TextView accountNameLabel;
         TextView accountAmountLabel;
     }

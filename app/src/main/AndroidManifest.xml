@@ -33,6 +33,13 @@
                 android:value=".ui.MainActivity" />
         </activity>
         <activity
+            android:name=".ui.EditAccountActivity"
+            android:label="@string/title_activity_edit_account" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.MonthlyExpensesActivity"
             android:label="@string/title_activity_monthly_expense"
             android:parentActivityName=".ui.MainActivity" >

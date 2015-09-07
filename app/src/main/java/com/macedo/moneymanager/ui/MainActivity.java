@@ -19,16 +19,18 @@ import com.macedo.moneymanager.ui.fragments.NavigationDrawerFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, AccountsFragment.OnFragmentInteractionListener {
 
+    public static final String TAG = MainActivity.class.getSimpleName();
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    private int mFragmentPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,22 +45,26 @@ public class MainActivity extends AppCompatActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
     }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the menu_navigation_drawer content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
-        switch (position) {
+        mFragmentPosition = position;
+        switch (mFragmentPosition) {
             case 0:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, DashboardFragment.newInstance(position))
+                        .replace(R.id.container, DashboardFragment.newInstance())
                         .commit();
+                mTitle = getString(R.string.title_dashboard_section);
                 break;
             case 1:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, AccountsFragment.newInstance(position))
+                        .replace(R.id.container, AccountsFragment.newInstance())
                         .commit();
+                mTitle = getString(R.string.title_account_section);
                 break;
             case 2:
                 Toast.makeText(this, "Fragment 2 not Found", Toast.LENGTH_LONG).show();
@@ -74,36 +80,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 0:
-                mTitle = getString(R.string.title_dashboard_section);
-                break;
-            case 1:
-                mTitle = getString(R.string.title_account_section);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-            case 4:
-                mTitle = getString(R.string.title_section4);
-                break;
-            case 5:
-                mTitle = getString(R.string.title_section5);
-                break;
-        }
-    }
-
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
