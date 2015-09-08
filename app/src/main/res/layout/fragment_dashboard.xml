@@ -82,7 +82,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Check Between Amount and Expenses: OK"
+        android:text="Check Between Accounts and Expenses: OK "
         android:id="@+id/checkTextView"
         android:paddingLeft="@dimen/horizontal_padding"
         android:paddingRight="@dimen/horizontal_padding"

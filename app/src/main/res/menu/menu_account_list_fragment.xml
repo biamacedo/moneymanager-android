@@ -7,11 +7,11 @@
           android:orderInCategory="100"
           android:icon="@drawable/ic_trash"
           app:showAsAction="always"/>
-    <item android:id="@+id/action_edit_account"
+    <!--<item android:id="@+id/action_edit_account"
           android:title="@string/action_edit_expense"
           android:orderInCategory="100"
           android:icon="@drawable/ic_pencil"
-          app:showAsAction="always"/>
+          app:showAsAction="always"/>-->
     <item android:id="@+id/action_new_account"
           android:title="@string/action_new_expense"
           android:orderInCategory="100"

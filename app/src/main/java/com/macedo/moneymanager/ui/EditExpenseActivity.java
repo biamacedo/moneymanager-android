@@ -3,8 +3,10 @@ package com.macedo.moneymanager.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -126,6 +128,17 @@ public class EditExpenseActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()== android.R.id.home) {
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            NavUtils.navigateUpTo(this, intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void saveExpense(){
         ExpensesDatasource datasource = new ExpensesDatasource(this);
         if(mCurrentExpense.getId() != -1){
@@ -134,5 +147,6 @@ public class EditExpenseActivity extends AppCompatActivity {
             datasource.create(mCurrentExpense);
         }
     }
+
 
 }

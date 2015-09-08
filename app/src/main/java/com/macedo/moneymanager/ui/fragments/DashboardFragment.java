@@ -59,18 +59,18 @@ public class DashboardFragment extends Fragment {
         mCheckTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mManagerCheck.verifyMatchAccountExpenses()){
-                    String differenceAmount = "$" + String.format("%.2f", mManagerCheck.getDifferenceAmount());
-                    mCheckTextView.setText(ManagerCheck.AMOUNT_MISMATCH + differenceAmount);
-                    mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkError));
-                } else {
-                    mCheckTextView.setText(ManagerCheck.AMOUNT_CORRECT);
-                    mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkOk));
-                }
+                verifyAmounts();
             }
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        verifyAmounts();
     }
 
     @Override
@@ -85,5 +85,14 @@ public class DashboardFragment extends Fragment {
         inflater.inflate(R.menu.menu_dashboard_fragment, menu);
     }
 
-
+    public void verifyAmounts(){
+        if(!mManagerCheck.verifyMatchAccountExpenses()){
+            String differenceAmount = "$" + String.format("%.2f", mManagerCheck.getDifferenceAmount());
+            mCheckTextView.setText(ManagerCheck.AMOUNT_MISMATCH + differenceAmount);
+            mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkError));
+        } else {
+            mCheckTextView.setText(ManagerCheck.AMOUNT_CORRECT);
+            mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkOk));
+        }
+    }
 }

@@ -66,6 +66,18 @@ public class DailyExpensesFragment extends Fragment {
                 }
             }
         });
+
+        mExpandableStickyList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
+                Expense clickedExpense = mExpenses.get(position);
+                intent.putExtra(EXPENSE_EXTRA, clickedExpense);
+                startActivity(intent);
+                return true;
+            }
+        });
+
         mExpandableStickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
@@ -76,16 +88,6 @@ public class DailyExpensesFragment extends Fragment {
                     view.setSelected(false);
                     mSelectedItems.remove(Integer.valueOf(position));
                 }
-            }
-        });
-        mExpandableStickyList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
-                Expense clickedExpense = mExpenses.get(position);
-                intent.putExtra(EXPENSE_EXTRA, clickedExpense);
-                startActivity(intent);
-                return true;
             }
         });
         return rootView;
@@ -109,6 +111,7 @@ public class DailyExpensesFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_daily_expense, menu);
+        super.onCreateOptionsMenu(menu, menuInflater);
     }
 
     @Override
@@ -123,7 +126,7 @@ public class DailyExpensesFragment extends Fragment {
             Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
             startActivity(intent);
             return true;
-        } else if (id == R.id.action_edit_expense) {
+        } /*else if (id == R.id.action_edit_expense) {
             if (mSelectedItems.size() > 0) {
                 Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
                 Expense clickedExpense = mExpenses.get(mSelectedItems.get(0));
@@ -132,7 +135,7 @@ public class DailyExpensesFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity(), "No item selected.", Toast.LENGTH_LONG).show();
             }
-        } else if (id == R.id.action_delete_expense) {
+        } */else if (id == R.id.action_delete_expense) {
             if (mSelectedItems.size() > 0){
                 AlertDialog dialog = new AlertDialog.Builder(getActivity())
                         .setTitle("Delete Item")
