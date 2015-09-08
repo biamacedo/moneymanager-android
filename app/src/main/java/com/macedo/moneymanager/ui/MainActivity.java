@@ -1,6 +1,5 @@
 package com.macedo.moneymanager.ui;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +12,7 @@ import android.widget.Toast;
 
 import com.macedo.moneymanager.R;
 import com.macedo.moneymanager.ui.fragments.AccountsFragment;
+import com.macedo.moneymanager.ui.fragments.DailyExpensesFragment;
 import com.macedo.moneymanager.ui.fragments.DashboardFragment;
 import com.macedo.moneymanager.ui.fragments.MonthlyExpensesFragment;
 import com.macedo.moneymanager.ui.fragments.NavigationDrawerFragment;
@@ -70,12 +70,15 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 2:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, MonthlyExpensesFragment.newInstance())
+                        .replace(R.id.container, DailyExpensesFragment.newInstance())
                         .commit();
                 mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 3:
-                Toast.makeText(this, "Fragment 3 not Found", Toast.LENGTH_LONG).show();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, MonthlyExpensesFragment.newInstance())
+                        .commit();
+                mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 4:
                 Toast.makeText(this, "Fragment 4 not Found", Toast.LENGTH_LONG).show();
@@ -113,13 +116,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_daily_expenses) {
-            Intent intent = new Intent(MainActivity.this, DailyExpensesActivity.class);
+            Intent intent = new Intent(MainActivity.this, DailyExpensesFragment.class);
             startActivity(intent);
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

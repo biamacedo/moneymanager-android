@@ -19,6 +19,7 @@ import com.macedo.moneymanager.database.CategoriesDatasource;
 import com.macedo.moneymanager.database.ExpensesDatasource;
 import com.macedo.moneymanager.models.Category;
 import com.macedo.moneymanager.models.Expense;
+import com.macedo.moneymanager.ui.fragments.DailyExpensesFragment;
 import com.macedo.moneymanager.ui.fragments.DatePickerFragment;
 
 import java.text.ParseException;
@@ -65,7 +66,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null){
-            mCurrentExpense = intent.getParcelableExtra(DailyExpensesActivity.EXPENSE_EXTRA);
+            mCurrentExpense = intent.getParcelableExtra(DailyExpensesFragment.EXPENSE_EXTRA);
             if (mCurrentExpense != null) {
                 titleEditText.setText(mCurrentExpense.getTitle());
                 descriptionEditText.setText(mCurrentExpense.getDescription());

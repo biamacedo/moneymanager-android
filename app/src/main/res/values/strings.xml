@@ -35,8 +35,8 @@
     <string-array name="drawer_list">
         <item>Dashboard</item>
         <item>Accounts</item>
-        <item>Expenses By Month</item>
         <item>Daily Expenses</item>
+        <item>Expenses By Month</item>
         <item>Bill Reminders</item>
         <item>Pro Features</item>
         <item>Settings</item>

@@ -19,14 +19,6 @@
         <activity
             android:name=".ui.EditExpenseActivity"
             android:label="@string/title_activity_new_expense"
-            android:parentActivityName=".ui.DailyExpensesActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.DailyExpensesActivity"
-            android:label="@string/title_activity_daily_expense"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -35,14 +27,6 @@
         <activity
             android:name=".ui.EditAccountActivity"
             android:label="@string/title_activity_edit_account" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.MonthlyExpensesActivity"
-            android:label="@string/title_activity_monthly_expense"
-            android:parentActivityName=".ui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
