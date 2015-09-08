@@ -14,9 +14,9 @@ public class ManagerCheck {
     private ExpensesDatasource mExpensesDatasource;
     private Context mContext;
 
-    private Double accountsTotalAmount;
-    private Double expensesTotalAmount;
-    private Double differenceAmount;
+    private Float accountsTotalAmount;
+    private Float expensesTotalAmount;
+    private Float differenceAmount;
 
     public static final String AMOUNT_MISMATCH = "Accounts and Expenses Mismatch!\n Missing: ";
     public static final String AMOUNT_CORRECT = "Check Between Accounts and Expenses: OK ";
@@ -27,25 +27,24 @@ public class ManagerCheck {
         mExpensesDatasource = new ExpensesDatasource(mContext);
     }
 
-    public Double getAccountsTotalAmount() {
+    public Float getAccountsTotalAmount() {
         return accountsTotalAmount;
     }
 
-    public Double getExpensesTotalAmount() {
+    public Float getExpensesTotalAmount() {
         return expensesTotalAmount;
     }
 
-    public Double getDifferenceAmount() {
+    public Float getDifferenceAmount() {
         return differenceAmount;
     }
 
     public boolean verifyMatchAccountExpenses(){
         accountsTotalAmount = mAccountsDatasource.sumAllAccounts();
         expensesTotalAmount = mExpensesDatasource.sumAllExpenses();
-        differenceAmount = 0.00;
+        differenceAmount = 0.00f;
 
-        if (accountsTotalAmount.compareTo(expensesTotalAmount) < 0.01 ||
-                accountsTotalAmount.compareTo(expensesTotalAmount) > -0.01){
+        if (accountsTotalAmount.equals(expensesTotalAmount)){
             return true;
         } else {
             differenceAmount = Math.abs(accountsTotalAmount - expensesTotalAmount);

@@ -11,16 +11,16 @@ public class Account implements Parcelable{
     private int mId;
     private String mName;
     private Category mCategory;
-    private Double mAmount;
+    private Float mAmount;
 
-    public Account(int id, String name, Category category, Double amount) {
+    public Account(int id, String name, Category category, Float amount) {
         mId = id;
         mName = name;
         mCategory = category;
         mAmount = amount;
     }
 
-    public Account(String name, Category category, Double amount) {
+    public Account(String name, Category category, Float amount) {
         mId = -1;
         mName = name;
         mCategory = category;
@@ -43,11 +43,11 @@ public class Account implements Parcelable{
         mName = name;
     }
 
-    public Double getAmount() {
+    public Float getAmount() {
         return mAmount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(Float amount) {
         mAmount = amount;
     }
 
@@ -74,7 +74,7 @@ public class Account implements Parcelable{
         out.writeString(mCategory.getName());
         out.writeString(mCategory.getType());
         out.writeString(mCategory.getIconName());
-        out.writeDouble(mAmount);
+        out.writeFloat(mAmount);
     }
 
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
@@ -96,6 +96,6 @@ public class Account implements Parcelable{
                 in.readString(),
                 in.readString(),
                 in.readString());
-        mAmount = in.readDouble();
+        mAmount = in.readFloat();
     }
 }

@@ -29,9 +29,6 @@
     <string name="content_desc_expense_icon">Expense Icon</string>
     <string name="content_desc_category_icon">Category Icon</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string-array name="drawer_list">
         <item>Dashboard</item>
         <item>Accounts</item>
@@ -41,4 +38,12 @@
         <item>Pro Features</item>
         <item>Settings</item>
     </string-array>
+
+    <string name="settings_dashboard">Dashboard</string>
+    <string name="settings_target">Target Amount</string>
+    <string name="settings_target_summary">Input the target amount for your balance</string>
+    <string name="settings_target_key">TARGET</string>
+    <string name="settings_income">Estimated Monthly Income Amount</string>
+    <string name="settings_income_summary">Input your estimated monthly income to calculate target</string>
+    <string name="settings_income_key">INCOME</string>
 </resources>

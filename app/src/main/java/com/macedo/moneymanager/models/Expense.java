@@ -14,10 +14,10 @@ public class Expense implements Parcelable {
     private String mTitle;
     private String mDescription;
     private Category mCategory;
-    private Double mAmount;
+    private Float mAmount;
     private Date mDate;
 
-    public Expense(int id, String title, String description, Category category, Double amount, Date date) {
+    public Expense(int id, String title, String description, Category category, Float amount, Date date) {
         mId = id;
         mTitle = title;
         mDescription = description;
@@ -26,7 +26,7 @@ public class Expense implements Parcelable {
         mDate = date;
     }
 
-    public Expense(String title, String description, Category category, Double amount, Date date) {
+    public Expense(String title, String description, Category category, Float amount, Date date) {
         mId = -1;
         mTitle = title;
         mDescription = description;
@@ -67,11 +67,11 @@ public class Expense implements Parcelable {
         mCategory = category;
     }
 
-    public Double getAmount() {
+    public Float getAmount() {
         return mAmount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(Float amount) {
         mAmount = amount;
     }
 
@@ -99,7 +99,7 @@ public class Expense implements Parcelable {
         out.writeString(mCategory.getName());
         out.writeString(mCategory.getType());
         out.writeString(mCategory.getIconName());
-        out.writeDouble(mAmount);
+        out.writeFloat(mAmount);
         out.writeLong((long) mDate.getTime() / 1000);
     }
 
@@ -123,7 +123,7 @@ public class Expense implements Parcelable {
                                     in.readString(),
                                     in.readString(),
                                     in.readString());
-        mAmount = in.readDouble();
+        mAmount = in.readFloat();
         mDate = new Date((long) in.readLong()*1000);
     }
 }

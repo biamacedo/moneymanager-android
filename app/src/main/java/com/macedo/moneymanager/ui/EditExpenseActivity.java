@@ -83,7 +83,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String title = titleEditText.getText().toString();
                 String description = descriptionEditText.getText().toString();
-                Double amount = Double.parseDouble(amountEditText.getText().toString());
+                Float amount = Float.parseFloat(amountEditText.getText().toString());
                 Date date = new Date();
                 try {
                     date = mDateFormatter.parse(dateEditText.getText().toString());

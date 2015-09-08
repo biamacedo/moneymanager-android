@@ -64,7 +64,7 @@ public class EditAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = nameEditText.getText().toString();
-                Double amount = Double.parseDouble(amountEditText.getText().toString());
+                Float amount = Float.parseFloat(amountEditText.getText().toString());
                 Category category = mCategoryItems.get(categorySpinner.getSelectedItemPosition());
 
                 if (mCurrentAccount == null){

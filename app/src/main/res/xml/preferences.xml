@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <PreferenceCategory
+        android:title="@string/settings_dashboard">
+        <EditTextPreference
+            android:defaultValue="100.00"
+            android:dialogTitle="@string/settings_target"
+            android:inputType="numberDecimal"
+            android:key="@string/settings_target_key"
+            android:summary="@string/settings_target_summary"
+            android:title="@string/settings_target" />
+        <EditTextPreference
+            android:defaultValue="10.00"
+            android:dialogTitle="@string/settings_income"
+            android:inputType="numberDecimal"
+            android:key="@string/settings_income_key"
+            android:summary="@string/settings_income_summary"
+            android:title="@string/settings_income" />
+    </PreferenceCategory>
 </PreferenceScreen>

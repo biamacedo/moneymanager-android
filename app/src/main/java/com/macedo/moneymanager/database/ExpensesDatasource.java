@@ -76,7 +76,7 @@ public class ExpensesDatasource {
                         DatabaseUtils.getStringFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_EXPENSE_TITLE),
                         DatabaseUtils.getStringFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_EXPENSE_DESC),
                         new Category(DatabaseUtils.getIntFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_FOREIGN_KEY_CATEGORY)),
-                        DatabaseUtils.getDoubleFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT),
+                        DatabaseUtils.getFloatFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT),
                         DatabaseUtils.getDateFromColumnNameInUnixTime(cursor, DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE));
 
                 expenses.add(expense);
@@ -161,17 +161,17 @@ public class ExpensesDatasource {
 
     }
 
-    public Double sumAllExpenses(){
+    public Float sumAllExpenses(){
         SQLiteDatabase database = open();
         ArrayList<Expense> expenses = new ArrayList<Expense>();
-        Double amount = 0.00;
+        Float amount = 0.00f;
 
         Cursor cursor = database.rawQuery(
                 "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE, null);
 
         if(cursor.moveToFirst()){
             do {
-                amount = cursor.getDouble(0);
+                amount = cursor.getFloat(0);
             } while(cursor.moveToNext());
         }
         cursor.close();
@@ -179,10 +179,10 @@ public class ExpensesDatasource {
         return amount;
     }
 
-    public Double sumAllExpensesInPeriod(Date fromDate, Date toDate){
+    public Float sumAllExpensesInPeriod(Date fromDate, Date toDate){
         SQLiteDatabase database = open();
         ArrayList<Expense> expenses = new ArrayList<Expense>();
-        Double amount = 0.00;
+        Float amount = 0.00f;
 
         String fromDateString = mDateFormatter.format(fromDate);
         String toDateString = mDateFormatter.format(toDate);
@@ -193,7 +193,7 @@ public class ExpensesDatasource {
 
         if(cursor.moveToFirst()){
             do {
-                amount = cursor.getDouble(0);
+                amount = cursor.getFloat(0);
             } while(cursor.moveToNext());
         }
         cursor.close();
@@ -201,10 +201,10 @@ public class ExpensesDatasource {
         return amount;
     }
 
-    public Double sumAllPositiveAmountInPeriod(Date fromDate, Date toDate){
+    public Float sumAllPositiveAmountInPeriod(Date fromDate, Date toDate){
         SQLiteDatabase database = open();
         ArrayList<Expense> expenses = new ArrayList<Expense>();
-        Double amount = 0.00;
+        Float amount = 0.00f;
 
         String fromDateString = mDateFormatter.format(fromDate);
         String toDateString = mDateFormatter.format(toDate);
@@ -216,7 +216,7 @@ public class ExpensesDatasource {
 
         if(cursor.moveToFirst()){
             do {
-                amount = cursor.getDouble(0);
+                amount = cursor.getFloat(0);
             } while(cursor.moveToNext());
         }
         cursor.close();
@@ -224,10 +224,10 @@ public class ExpensesDatasource {
         return amount;
     }
 
-    public Double sumAllNegativeAmountInPeriod(Date fromDate, Date toDate){
+    public Float sumAllNegativeAmountInPeriod(Date fromDate, Date toDate){
         SQLiteDatabase database = open();
         ArrayList<Expense> expenses = new ArrayList<Expense>();
-        Double amount = 0.00;
+        Float amount = 0.00f;
 
         String fromDateString = mDateFormatter.format(fromDate);
         String toDateString = mDateFormatter.format(toDate);
@@ -239,7 +239,7 @@ public class ExpensesDatasource {
 
         if(cursor.moveToFirst()){
             do {
-                amount = cursor.getDouble(0);
+                amount = cursor.getFloat(0);
             } while(cursor.moveToNext());
         }
         cursor.close();

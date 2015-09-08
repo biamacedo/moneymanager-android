@@ -6,12 +6,12 @@ package com.macedo.moneymanager.models;
 public class MonthExpense {
 
     private String month;
-    private Double amount;
-    private Double percentage;
-    private Double winAmount;
-    private Double lossAmount;
+    private Float amount;
+    private Float percentage;
+    private Float winAmount;
+    private Float lossAmount;
 
-    public MonthExpense(String month, Double amount, Double percentage, Double winAmount, Double lossAmount) {
+    public MonthExpense(String month, Float amount, Float percentage, Float winAmount, Float lossAmount) {
         this.month = month;
         this.amount = amount;
         this.percentage = percentage;
@@ -27,35 +27,35 @@ public class MonthExpense {
         this.month = month;
     }
 
-    public Double getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 
-    public Double getPercentage() {
+    public Float getPercentage() {
         return percentage;
     }
 
-    public void setPercentage(Double percentage) {
+    public void setPercentage(Float percentage) {
         this.percentage = percentage;
     }
 
-    public Double getWinAmount() {
+    public Float getWinAmount() {
         return winAmount;
     }
 
-    public void setWinAmount(Double winAmount) {
+    public void setWinAmount(Float winAmount) {
         this.winAmount = winAmount;
     }
 
-    public Double getLossAmount() {
+    public Float getLossAmount() {
         return lossAmount;
     }
 
-    public void setLossAmount(Double lossAmount) {
+    public void setLossAmount(Float lossAmount) {
         this.lossAmount = lossAmount;
     }
 }

@@ -21,9 +21,9 @@ public class DatabaseUtils {
         return cursor.getString(columnIndex);
     }
 
-    public static double getDoubleFromColumnName(Cursor cursor, String columnName){
+    public static float getFloatFromColumnName(Cursor cursor, String columnName){
         int columnIndex = cursor.getColumnIndex(columnName);
-        return cursor.getDouble(columnIndex);
+        return cursor.getFloat(columnIndex);
     }
 
     public static Date getDateFromColumnNameInUnixTime(Cursor cursor, String columnName){

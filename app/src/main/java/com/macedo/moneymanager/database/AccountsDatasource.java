@@ -65,7 +65,7 @@ public class AccountsDatasource {
                 Account account = new Account(DatabaseUtils.getIntFromColumnName(cursor, BaseColumns._ID),
                         DatabaseUtils.getStringFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_ACCOUNT_NAME),
                         new Category(DatabaseUtils.getIntFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_FOREIGN_KEY_CATEGORY)),
-                        DatabaseUtils.getDoubleFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_ACCOUNT_AMOUNT));
+                        DatabaseUtils.getFloatFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_ACCOUNT_AMOUNT));
 
                 accounts.add(account);
             } while(cursor.moveToNext());
@@ -143,17 +143,17 @@ public class AccountsDatasource {
 
     }
 
-    public Double sumAllAccounts(){
+    public Float sumAllAccounts(){
         SQLiteDatabase database = open();
         ArrayList<Account> accounts = new ArrayList<Account>();
-        Double amount = 0.00;
+        Float amount = 0.00f;
 
         Cursor cursor = database.rawQuery(
                 "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_ACCOUNT_AMOUNT + ") FROM " + DatabaseSQLiteHelper.ACCOUNTS_TABLE, null);
 
         if(cursor.moveToFirst()){
             do {
-                amount = cursor.getDouble(0);
+                amount = cursor.getFloat(0);
             } while(cursor.moveToNext());
         }
         cursor.close();

@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal|numberSigned"
         android:ems="10"
+        android:defaultValue="0.00"
         android:id="@+id/amountEditText"/>
 
     <Button

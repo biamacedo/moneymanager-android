@@ -6,7 +6,9 @@ package com.macedo.moneymanager.ui.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,9 +24,14 @@ public class DashboardFragment extends Fragment {
 
     public static final String TAG = DashboardFragment.class.getSimpleName();
 
+    public static final String MONTHS_TO_TARGET_LABEL = "Months\nto target:\n";
+
     TextView mBalanceTextView;
     TextView mMonthsToTargetTextView;
+    TextView mTargetLabel;
     TextView mCheckTextView;
+
+    ExpensesDatasource mExpensesDatasource;
     ManagerCheck mManagerCheck;
 
     public static DashboardFragment newInstance() {
@@ -48,13 +55,12 @@ public class DashboardFragment extends Fragment {
 
         mBalanceTextView = (TextView) rootView.findViewById(R.id.balanceTextView);
         mMonthsToTargetTextView = (TextView) rootView.findViewById(R.id.targetTextView);
+        mTargetLabel = (TextView) rootView.findViewById(R.id.targetLabel);
         mCheckTextView  = (TextView) rootView.findViewById(R.id.checkTextView);
 
-        ExpensesDatasource expenseDatasource = new ExpensesDatasource(getActivity());
+        mExpensesDatasource = new ExpensesDatasource(getActivity());
 
-        // TODO: Months to Target Code
-
-        mBalanceTextView.setText("$" + String.format("%.2f", expenseDatasource.sumAllExpenses()));
+        updateDashboard();
 
         mCheckTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +76,7 @@ public class DashboardFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        updateDashboard();
         verifyAmounts();
     }
 
@@ -83,6 +90,24 @@ public class DashboardFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_dashboard_fragment, menu);
+    }
+
+    public void updateDashboard(){
+        Float balance = mExpensesDatasource.sumAllExpenses();
+        mBalanceTextView.setText("$" + String.format("%.2f", balance));
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String target = preferences.getString(getActivity().getResources().getString(R.string.settings_target_key), "100.00");
+        String income = preferences.getString(getActivity().getResources().getString(R.string.settings_income_key), "10.00");
+        Float targetAmount = Float.parseFloat(target);
+        Float incomeAmount = Float.parseFloat(income);
+
+        mTargetLabel.setText(MONTHS_TO_TARGET_LABEL + "$" + String.format("%.2f", targetAmount));
+
+        int monthsToTarget = new Float((targetAmount - balance) / incomeAmount).intValue();
+        if (monthsToTarget < 0) { monthsToTarget = 0; }
+
+        mMonthsToTargetTextView.setText(String.valueOf(monthsToTarget));
     }
 
     public void verifyAmounts(){
