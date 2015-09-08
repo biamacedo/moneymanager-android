@@ -18,15 +18,31 @@ public class ManagerCheck {
     private Double expensesTotalAmount;
     private Double differenceAmount;
 
+    public static final String AMOUNT_MISMATCH = "Accounts and Expenses Mismatch!\n Missing: ";
+    public static final String AMOUNT_CORRECT = "Check Between Accounts and Expenses: OK ";
+
     public ManagerCheck(Context context){
         mContext = context;
         mAccountsDatasource = new AccountsDatasource(mContext);
         mExpensesDatasource = new ExpensesDatasource(mContext);
     }
 
+    public Double getAccountsTotalAmount() {
+        return accountsTotalAmount;
+    }
+
+    public Double getExpensesTotalAmount() {
+        return expensesTotalAmount;
+    }
+
+    public Double getDifferenceAmount() {
+        return differenceAmount;
+    }
+
     public boolean verifyMatchAccountExpenses(){
         accountsTotalAmount = mAccountsDatasource.sumAllAccounts();
         expensesTotalAmount = mExpensesDatasource.sumAllExpenses();
+        differenceAmount = 0.00;
 
         if (accountsTotalAmount == expensesTotalAmount){
             return true;
@@ -35,5 +51,4 @@ public class ManagerCheck {
             return false;
         }
     };
-
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.macedo.moneymanager.R;
 import com.macedo.moneymanager.database.ExpensesDatasource;
+import com.macedo.moneymanager.models.ManagerCheck;
 
 public class DashboardFragment extends Fragment {
 
@@ -23,6 +24,8 @@ public class DashboardFragment extends Fragment {
 
     TextView mBalanceTextView;
     TextView mMonthsToTargetTextView;
+    TextView mCheckTextView;
+    ManagerCheck mManagerCheck;
 
     public static DashboardFragment newInstance() {
         return new DashboardFragment();
@@ -41,15 +44,31 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        mManagerCheck = new ManagerCheck(getActivity());
 
         mBalanceTextView = (TextView) rootView.findViewById(R.id.balanceTextView);
         mMonthsToTargetTextView = (TextView) rootView.findViewById(R.id.targetTextView);
+        mCheckTextView  = (TextView) rootView.findViewById(R.id.checkTextView);
 
         ExpensesDatasource expenseDatasource = new ExpensesDatasource(getActivity());
 
         // TODO: Months to Target Code
 
         mBalanceTextView.setText("$" + String.format("%.2f", expenseDatasource.sumAllExpenses()));
+
+        mCheckTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mManagerCheck.verifyMatchAccountExpenses()){
+                    String differenceAmount = "$" + String.format("%.2f", mManagerCheck.getDifferenceAmount());
+                    mCheckTextView.setText(ManagerCheck.AMOUNT_MISMATCH + differenceAmount);
+                    mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkError));
+                } else {
+                    mCheckTextView.setText(ManagerCheck.AMOUNT_CORRECT);
+                    mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkOk));
+                }
+            }
+        });
 
         return rootView;
     }

@@ -91,7 +91,7 @@
         android:textIsSelectable="true"
         android:gravity="center"
         android:layout_below="@+id/balanceLayout"
-        android:background="@color/check"
+        android:background="@color/checkOk"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/vertical_padding"
