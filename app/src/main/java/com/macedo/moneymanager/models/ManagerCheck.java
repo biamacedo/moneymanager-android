@@ -44,7 +44,8 @@ public class ManagerCheck {
         expensesTotalAmount = mExpensesDatasource.sumAllExpenses();
         differenceAmount = 0.00;
 
-        if (accountsTotalAmount == expensesTotalAmount){
+        if (accountsTotalAmount.compareTo(expensesTotalAmount) < 0.01 ||
+                accountsTotalAmount.compareTo(expensesTotalAmount) > -0.01){
             return true;
         } else {
             differenceAmount = Math.abs(accountsTotalAmount - expensesTotalAmount);
