@@ -1,8 +1,8 @@
 package com.macedo.moneymanager.ui;
 
+import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import com.macedo.moneymanager.ui.fragments.DailyExpensesFragment;
 import com.macedo.moneymanager.ui.fragments.DashboardFragment;
 import com.macedo.moneymanager.ui.fragments.MonthlyExpensesFragment;
 import com.macedo.moneymanager.ui.fragments.NavigationDrawerFragment;
+import com.macedo.moneymanager.ui.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, AccountsFragment.OnFragmentInteractionListener {
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     public void onNavigationDrawerItemSelected(int position) {
         // update the menu_navigation_drawer content by replacing fragments
         String[] drawerStrings = getResources().getStringArray(R.array.drawer_list);
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         mFragmentPosition = position;
         switch (mFragmentPosition) {
             case 0:
@@ -81,7 +82,16 @@ public class MainActivity extends AppCompatActivity
                 mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 4:
-                Toast.makeText(this, "Fragment 4 not Found", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Fragment Bill Reminders not Found", Toast.LENGTH_LONG).show();
+                break;
+            case 5:
+                Toast.makeText(this, "Fragment Pro Features not Found", Toast.LENGTH_LONG).show();
+                break;
+            case 6:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, SettingsFragment.newInstance())
+                        .commit();
+                mTitle = drawerStrings[mFragmentPosition];
                 break;
             default:
                 Toast.makeText(this, "Fragment Default not Found", Toast.LENGTH_LONG).show();

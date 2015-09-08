@@ -1,7 +1,7 @@
 package com.macedo.moneymanager.ui.fragments;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
