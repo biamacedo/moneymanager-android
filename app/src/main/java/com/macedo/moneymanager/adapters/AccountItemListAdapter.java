@@ -46,7 +46,7 @@ public class AccountItemListAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.accounts_list_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_account, null);
 
             holder = new ViewHolder();
             holder.accountIcon = (ImageView) convertView.findViewById(R.id.categoryIcon);

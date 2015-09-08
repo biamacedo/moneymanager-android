@@ -1,0 +1,108 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:background="@android:color/white"
+                tools:context=".MainActivity$PlaceholderFragment">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:id="@+id/balanceLayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/background_balance"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/horizontal_padding">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Balance"
+                android:id="@+id/balanceLabel"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="$100.00"
+                android:id="@+id/balanceTextView"
+                android:textIsSelectable="true"
+                android:textSize="32sp"/>
+            </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:id="@+id/targetLayout"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="5"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:id="@+id/targetTextView"
+                android:layout_marginLeft="@dimen/horizontal_padding"
+                android:textSize="24sp"
+                android:padding="@dimen/circle_padding"
+                android:textIsSelectable="true"
+                android:background="@color/target"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Months\nto target:\n$400.00"
+                android:id="@+id/targetLabel"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/background_border"
+                android:paddingLeft="@dimen/horizontal_padding"
+                android:textIsSelectable="true"
+                android:paddingRight="@dimen/horizontal_padding"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check Between Amount and Expenses: OK"
+        android:id="@+id/checkTextView"
+        android:paddingLeft="@dimen/horizontal_padding"
+        android:paddingRight="@dimen/horizontal_padding"
+        android:paddingTop="@dimen/vertical_padding"
+        android:paddingBottom="@dimen/vertical_padding"
+        android:textIsSelectable="true"
+        android:gravity="center"
+        android:layout_below="@+id/balanceLayout"
+        android:background="@color/check"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/vertical_padding"
+        android:layout_marginBottom="@dimen/vertical_padding"/>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/checkTextView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+</RelativeLayout>

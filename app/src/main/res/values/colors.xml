@@ -2,4 +2,8 @@
 <resources>
     <color name="item_pressed_color">#aaafff8f</color>
     <color name="item_default_color">@android:color/white</color>
+
+    <color name="target">#aaafff8f</color>
+
+    <color name="check">#aaffea77</color>
 </resources>

@@ -51,7 +51,7 @@ public class DailyExpenseItemListAdapter extends BaseAdapter implements StickyLi
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.daily_expenses_list_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_daily_expenses, null);
 
             holder = new ViewHolder();
             holder.expenseIcon = (ImageView) convertView.findViewById(R.id.categoryIcon);
@@ -86,7 +86,7 @@ public class DailyExpenseItemListAdapter extends BaseAdapter implements StickyLi
         HeaderViewHolder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.daily_expenses_section_header, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.section_header_daily_expenses, null);
 
             holder = new HeaderViewHolder();
             holder.headerLabel = (TextView) convertView.findViewById(R.id.headerLabel);

@@ -12,28 +12,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.macedo.moneymanager.R;
+import com.macedo.moneymanager.database.ExpensesDatasource;
 
 public class DashboardFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-   // private static final String ARG_SECTION_NUMBER = "section_number";
 
     public static final String TAG = DashboardFragment.class.getSimpleName();
 
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
+    TextView mBalanceTextView;
+    TextView mMonthsToTargetTextView;
+
     public static DashboardFragment newInstance() {
-        DashboardFragment fragment = new DashboardFragment();
-        //Bundle args = new Bundle();
-        //args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-        //fragment.setArguments(args);
-        return fragment;
+        return new DashboardFragment();
     }
 
     public DashboardFragment() {
@@ -48,15 +40,23 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        mBalanceTextView = (TextView) rootView.findViewById(R.id.balanceTextView);
+        mMonthsToTargetTextView = (TextView) rootView.findViewById(R.id.targetTextView);
+
+        ExpensesDatasource expenseDatasource = new ExpensesDatasource(getActivity());
+
+        // TODO: Months to Target Code
+
+        mBalanceTextView.setText("$" + String.format("%.2f", expenseDatasource.sumAllExpenses()));
+
         return rootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        //((MainActivity) activity).onSectionAttached(
-        //        getArguments().getInt(ARG_SECTION_NUMBER));
     }
 
 

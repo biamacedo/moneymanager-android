@@ -11,6 +11,9 @@
     <dimen name="list_item_vertical_margin">8dp</dimen>
 
     <dimen name="vertical_padding">8dp</dimen>
+    <dimen name="horizontal_padding">8dp</dimen>
+    <dimen name="circle_padding">20dp</dimen>
+    <dimen name="dashboard_horizontal_padding">40dp</dimen>
     <dimen name="small_vertical_padding">8dp</dimen>
 
     <dimen name="section_header_vertical_padding">2dp</dimen>

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/list_item_horizontal_margin"
         android:layout_marginRight="@dimen/list_item_horizontal_margin"
-        android:background="@drawable/list_item_background">
+        android:background="@drawable/background_list_item">
 
         <ImageView
             android:id="@+id/categoryIcon"

@@ -10,6 +10,7 @@ import com.macedo.moneymanager.models.Category;
 import com.macedo.moneymanager.models.Expense;
 import com.macedo.moneymanager.utils.DatabaseUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -20,8 +21,12 @@ public class ExpensesDatasource {
 
     public static final String TAG = ExpensesDatasource.class.getSimpleName();
 
+    public static final String DB_DATE_FORMAT = "yyyy-MM-dd";
+
     private Context mContext;
     private DatabaseSQLiteHelper mDatabaseSqlLiteHelper;
+
+    public SimpleDateFormat mDateFormatter = new SimpleDateFormat(DB_DATE_FORMAT);
 
     public ExpensesDatasource(Context context) {
         mContext = context;
@@ -174,14 +179,17 @@ public class ExpensesDatasource {
         return amount;
     }
 
-    public Double sumAllPositiveAmount(){
+    public Double sumAllExpensesInPeriod(Date fromDate, Date toDate){
         SQLiteDatabase database = open();
         ArrayList<Expense> expenses = new ArrayList<Expense>();
         Double amount = 0.00;
 
+        String fromDateString = mDateFormatter.format(fromDate);
+        String toDateString = mDateFormatter.format(toDate);
+
         Cursor cursor = database.rawQuery(
                 "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE +
-                        " WHERE " + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + " > 0", null);
+                "WHERE " + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN '" + fromDateString + "' AND '" + toDateString + "' ", null);
 
         if(cursor.moveToFirst()){
             do {
@@ -193,14 +201,41 @@ public class ExpensesDatasource {
         return amount;
     }
 
-    public Double sumAllNegativeAmount(){
+    public Double sumAllPositiveAmountInPeriod(Date fromDate, Date toDate){
         SQLiteDatabase database = open();
         ArrayList<Expense> expenses = new ArrayList<Expense>();
         Double amount = 0.00;
 
+        String fromDateString = mDateFormatter.format(fromDate);
+        String toDateString = mDateFormatter.format(toDate);
+
         Cursor cursor = database.rawQuery(
                 "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE +
-                        " WHERE " + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + " < 0", null);
+                        " WHERE " + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + " > 0 " +
+                "AND " + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN '" + fromDateString + "' AND '" + toDateString + "' ", null);
+
+        if(cursor.moveToFirst()){
+            do {
+                amount = cursor.getDouble(0);
+            } while(cursor.moveToNext());
+        }
+        cursor.close();
+        close(database);
+        return amount;
+    }
+
+    public Double sumAllNegativeAmountInPeriod(Date fromDate, Date toDate){
+        SQLiteDatabase database = open();
+        ArrayList<Expense> expenses = new ArrayList<Expense>();
+        Double amount = 0.00;
+
+        String fromDateString = mDateFormatter.format(fromDate);
+        String toDateString = mDateFormatter.format(toDate);
+
+        Cursor cursor = database.rawQuery(
+                "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE +
+                        " WHERE " + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + " < 0 " +
+                        "AND " + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN '" + fromDateString + "' AND '" + toDateString + "' ", null);
 
         if(cursor.moveToFirst()){
             do {

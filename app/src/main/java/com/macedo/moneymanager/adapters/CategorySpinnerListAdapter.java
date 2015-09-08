@@ -40,7 +40,7 @@ public class CategorySpinnerListAdapter extends ArrayAdapter<Category> {
     public View getCustomView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(R.layout.category_spinner_list_item, parent, false);
+        convertView = inflater.inflate(R.layout.list_item_category_spinner, parent, false);
 
         ImageView categoryIcon=(ImageView) convertView.findViewById(R.id.categoryIcon);
         int iconDrawable = mContext.getResources().getIdentifier(mCategories.get(position).getIconName(), "drawable", mContext.getPackageName());
