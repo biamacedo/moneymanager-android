@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/list_item_vertical_margin"
+        android:dividerHeight="0dp"
         android:layout_above="@+id/footer"/>
 
     <LinearLayout
@@ -23,7 +23,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#96b1b1b1">
+        android:background="@color/footer">
 
         <TextView
             android:layout_width="wrap_content"

@@ -7,15 +7,15 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listView2"
+        android:id="@+id/listView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/include"/>
+        android:layout_above="@+id/yearItem"/>
 
-    <include layout="@layout/list_item_monthly_expenses"
+    <include layout="@layout/list_item_total_monthly_expenses"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_alignParentBottom="true"
-             android:id="@+id/include"/>
+             android:id="@+id/yearItem"
+             android:layout_alignParentBottom="true"/>
 </RelativeLayout>

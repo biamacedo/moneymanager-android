@@ -12,7 +12,7 @@ public class MonthlyExpensesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_monthly_expenses);
+        setContentView(R.layout.fragment_monthly_expenses);
     }
 
     @Override

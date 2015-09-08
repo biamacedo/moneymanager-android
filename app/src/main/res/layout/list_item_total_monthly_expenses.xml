@@ -7,12 +7,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/list_item_horizontal_margin"
-        android:layout_marginRight="@dimen/list_item_horizontal_margin"
-        android:layout_marginTop="@dimen/list_item_vertical_margin"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
-        android:background="@android:color/white">
+        android:background="@color/footer">
 
         <TextView
             android:layout_width="wrap_content"

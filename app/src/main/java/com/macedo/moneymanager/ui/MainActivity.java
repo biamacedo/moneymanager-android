@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.macedo.moneymanager.R;
 import com.macedo.moneymanager.ui.fragments.AccountsFragment;
 import com.macedo.moneymanager.ui.fragments.DashboardFragment;
+import com.macedo.moneymanager.ui.fragments.MonthlyExpensesFragment;
 import com.macedo.moneymanager.ui.fragments.NavigationDrawerFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the menu_navigation_drawer content by replacing fragments
+        String[] drawerStrings = getResources().getStringArray(R.array.drawer_list);
         FragmentManager fragmentManager = getSupportFragmentManager();
         mFragmentPosition = position;
         switch (mFragmentPosition) {
@@ -58,16 +60,19 @@ public class MainActivity extends AppCompatActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, DashboardFragment.newInstance())
                         .commit();
-                mTitle = getString(R.string.title_dashboard_section);
+                mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 1:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, AccountsFragment.newInstance())
                         .commit();
-                mTitle = getString(R.string.title_account_section);
+                mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 2:
-                Toast.makeText(this, "Fragment 2 not Found", Toast.LENGTH_LONG).show();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, MonthlyExpensesFragment.newInstance())
+                        .commit();
+                mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 3:
                 Toast.makeText(this, "Fragment 3 not Found", Toast.LENGTH_LONG).show();

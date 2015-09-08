@@ -3,7 +3,7 @@
 
     <string name="title_dashboard_section">Dashboard</string>
     <string name="title_account_section">Accounts</string>
-    <string name="title_section2">Expenses By Date</string>
+    <string name="title_month_section">Expenses By Month</string>
     <string name="title_section3">Expenses By Year</string>
     <string name="title_section4">Pro Features</string>
     <string name="title_section5">Settings</string>
@@ -31,4 +31,14 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="drawer_list">
+        <item>Dashboard</item>
+        <item>Accounts</item>
+        <item>Expenses By Month</item>
+        <item>Daily Expenses</item>
+        <item>Bill Reminders</item>
+        <item>Pro Features</item>
+        <item>Settings</item>
+    </string-array>
 </resources>
