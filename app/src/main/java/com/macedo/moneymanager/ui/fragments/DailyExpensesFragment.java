@@ -146,6 +146,7 @@ public class DailyExpensesFragment extends Fragment {
                                 ExpensesDatasource datasource = new ExpensesDatasource(getActivity());
                                 for(Integer i : mSelectedItems){
                                     datasource.delete(mExpenses.get(i).getId());
+                                    refreshList();
                                 }
                             }
                         })
@@ -156,7 +157,6 @@ public class DailyExpensesFragment extends Fragment {
                         })
                         .setIcon(R.drawable.ic_exclamation_triangle)
                         .show();
-                refreshList();
             } else {
                 Toast.makeText(getActivity(), "No item selected.", Toast.LENGTH_LONG).show();
             }

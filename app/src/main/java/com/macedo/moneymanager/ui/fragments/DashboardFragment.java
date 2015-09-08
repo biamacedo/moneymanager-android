@@ -16,9 +16,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.macedo.moneymanager.R;
 import com.macedo.moneymanager.database.ExpensesDatasource;
+import com.macedo.moneymanager.database.MonthExpensesDatasource;
 import com.macedo.moneymanager.models.ManagerCheck;
+import com.macedo.moneymanager.models.MonthExpense;
+import com.macedo.moneymanager.utils.AmountFormatter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DashboardFragment extends Fragment {
 
@@ -30,6 +45,8 @@ public class DashboardFragment extends Fragment {
     TextView mMonthsToTargetTextView;
     TextView mTargetLabel;
     TextView mCheckTextView;
+
+    LineChart mLineChart;
 
     ExpensesDatasource mExpensesDatasource;
     ManagerCheck mManagerCheck;
@@ -57,10 +74,12 @@ public class DashboardFragment extends Fragment {
         mMonthsToTargetTextView = (TextView) rootView.findViewById(R.id.targetTextView);
         mTargetLabel = (TextView) rootView.findViewById(R.id.targetLabel);
         mCheckTextView  = (TextView) rootView.findViewById(R.id.checkTextView);
+        mLineChart = (LineChart) rootView.findViewById(R.id.lineChart);
 
         mExpensesDatasource = new ExpensesDatasource(getActivity());
 
         updateDashboard();
+        verifyAmounts();
 
         mCheckTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +111,71 @@ public class DashboardFragment extends Fragment {
         inflater.inflate(R.menu.menu_dashboard_fragment, menu);
     }
 
+    public void setupLineChart(){
+        MonthExpensesDatasource monthExpensesDatasource = new MonthExpensesDatasource(getActivity());
+        ArrayList<MonthExpense> monthExpenses = monthExpensesDatasource.readMonthExpense(getCurrentYear());
+
+        String[] monthValues = getActivity().getResources().getStringArray(R.array.months_char);
+        ArrayList<String> chartXValues = new ArrayList<String>( Arrays.asList(monthValues));
+
+        ArrayList<Entry> incomeValues = new ArrayList<Entry>();
+        for (int i = 0; i < monthExpenses.size(); i++){
+            Entry newEntry = new Entry(monthExpenses.get(i).getAmount(), i);
+            incomeValues.add(newEntry);
+        }
+
+        LineDataSet incomeDataSet = new LineDataSet(incomeValues, "Income");
+        incomeDataSet.setColor(getActivity().getResources().getColor(R.color.graph_income));
+        incomeDataSet.setLineWidth(2.5f);
+        incomeDataSet.setCircleColor(getActivity().getResources().getColor(R.color.graph_income));
+        incomeDataSet.setCircleSize(5f);
+        incomeDataSet.setFillColor(getActivity().getResources().getColor(R.color.graph_income));
+        incomeDataSet.setDrawCubic(true);
+        incomeDataSet.setDrawValues(true);
+        incomeDataSet.setValueTextSize(10f);
+        incomeDataSet.setValueTextColor(getActivity().getResources().getColor(android.R.color.black));
+
+        incomeDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+        dataSets.add(incomeDataSet);
+
+        LineData data = new LineData(chartXValues, dataSets);
+        mLineChart.setData(data);
+
+        mLineChart.setDrawGridBackground(false);
+        mLineChart.setDrawBorders(false);
+        // enable value highlighting
+        mLineChart.setHighlightEnabled(true);
+        // enable touch gestures
+        mLineChart.setTouchEnabled(true);
+        // if disabled, scaling can be done on x- and y-axis separately
+        mLineChart.setPinchZoom(false);
+
+        XAxis xAxis = mLineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+
+
+        AmountFormatter custom = new AmountFormatter();
+
+        YAxis leftAxis = mLineChart.getAxisLeft();
+        leftAxis.setLabelCount(8, false);
+        leftAxis.setValueFormatter(custom);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(15f);
+
+        YAxis rightAxis = mLineChart.getAxisRight();
+        rightAxis.setEnabled(false);
+
+        Legend l = mLineChart.getLegend();
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+
+        mLineChart.setDescription("");
+
+        mLineChart.invalidate(); // refresh
+    }
+
     public void updateDashboard(){
         Float balance = mExpensesDatasource.sumAllExpenses();
         mBalanceTextView.setText("$" + String.format("%.2f", balance));
@@ -108,6 +192,8 @@ public class DashboardFragment extends Fragment {
         if (monthsToTarget < 0) { monthsToTarget = 0; }
 
         mMonthsToTargetTextView.setText(String.valueOf(monthsToTarget));
+
+        setupLineChart();
     }
 
     public void verifyAmounts(){
@@ -119,5 +205,12 @@ public class DashboardFragment extends Fragment {
             mCheckTextView.setText(ManagerCheck.AMOUNT_CORRECT);
             mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkOk));
         }
+    }
+
+    public int getCurrentYear(){
+        Date now =  new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        return cal.get(Calendar.YEAR);
     }
 }

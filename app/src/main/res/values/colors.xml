@@ -4,10 +4,10 @@
     <color name="item_default_color">@android:color/white</color>
 
     <color name="target">#aaafff8f</color>
-
     <color name="checkOk">#aaffea77</color>
     <color name="checkError">#aaff6e62</color>
     <color name="footer">#96b1b1b1</color>
 
+    <color name="graph_income">#24950e</color>
 
 </resources>

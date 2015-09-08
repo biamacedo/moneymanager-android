@@ -3,6 +3,7 @@ package com.macedo.moneymanager.database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.macedo.moneymanager.models.Expense;
 import com.macedo.moneymanager.models.MonthExpense;
@@ -11,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by Beatriz on 06/09/2015.
@@ -49,13 +51,15 @@ public class MonthExpensesDatasource {
         ArrayList<MonthExpense> monthExpenses = new ArrayList<MonthExpense>();
 
         for(int month = 0; month < 12; month++) {
-            Calendar cal = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
             cal.set(Calendar.YEAR, year);
             cal.set(Calendar.MONTH, month);
             cal.set(Calendar.DATE, 1);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
             Date firstDateOfMonth = cal.getTime();
 
             cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+            cal.set(Calendar.HOUR_OF_DAY, cal.getActualMaximum(Calendar.HOUR_OF_DAY));
 
             Date lastDateOfMonth = cal.getTime();
 
@@ -78,15 +82,17 @@ public class MonthExpensesDatasource {
     }
 
     public MonthExpense readYearExpense(int year){
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, 1);
         cal.set(Calendar.DATE, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
         Date firstDateOfYear= cal.getTime();
 
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, 12);
         cal.set(Calendar.DATE, 31);
+        cal.set(Calendar.HOUR_OF_DAY, cal.getActualMaximum(Calendar.HOUR_OF_DAY));
 
         Date lastDateOfYear = cal.getTime();
 
@@ -111,7 +117,7 @@ public class MonthExpensesDatasource {
         Float amount = 0.00f;
 
         Cursor cursor = database.rawQuery(
-                "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE, null);
+                "SELECT SUM(T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE +" T", null);
 
         if(cursor.moveToFirst()){
             do {
@@ -131,9 +137,11 @@ public class MonthExpensesDatasource {
         long fromUnixTime = fromDate.getTime()/1000;
         long toUnixTime = toDate.getTime()/1000;
 
-        Cursor cursor = database.rawQuery(
-                "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE +
-                " WHERE " + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime, null);
+        String query = "SELECT SUM(T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE + " T " +
+                " WHERE T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime;
+        Log.d(TAG, query);
+
+        Cursor cursor = database.rawQuery(query, null);
 
         if(cursor.moveToFirst()){
             do {

@@ -33,13 +33,13 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     public static final String TAG = EditExpenseActivity.class.getSimpleName();
 
-    private EditText titleEditText;
-    private EditText descriptionEditText;
-    private EditText dateEditText;
-    private EditText amountEditText;
-    private Spinner categorySpinner;
-    private Button editExpenseButton;
-    private ImageView calendarIcon;
+    private EditText mTitleEditText;
+    private EditText mDescriptionEditText;
+    private EditText mDateEditText;
+    private EditText mAmountEditText;
+    private Spinner mCategorySpinner;
+    private Button mEditExpenseButton;
+    private ImageView mCalendarIcon;
 
     private Expense mCurrentExpense;
 
@@ -53,46 +53,49 @@ public class EditExpenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_expense);
 
-        titleEditText  = (EditText) findViewById(R.id.nameEditText);
-        descriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
-        amountEditText = (EditText) findViewById(R.id.amountEditText);
-        dateEditText = (EditText) findViewById(R.id.dateEditText);
-        categorySpinner = (Spinner) findViewById(R.id.categorySpinner);
-        editExpenseButton = (Button) findViewById(R.id.editExpenseButton);
-        calendarIcon = (ImageView) findViewById(R.id.calendarIcon);
+        mTitleEditText = (EditText) findViewById(R.id.nameEditText);
+        mDescriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
+        mAmountEditText = (EditText) findViewById(R.id.amountEditText);
+        mDateEditText = (EditText) findViewById(R.id.dateEditText);
+        mCategorySpinner = (Spinner) findViewById(R.id.categorySpinner);
+        mEditExpenseButton = (Button) findViewById(R.id.editExpenseButton);
+        mCalendarIcon = (ImageView) findViewById(R.id.calendarIcon);
+
+        Date now = new Date();
+        mDateEditText.setText(mDateFormatter.format(now));
 
         mCategoryItems = categoriesDatasource.read(CategoriesDatasource.CATEGORY_TYPE_EXPENSE);
 
         CategorySpinnerListAdapter adapter = new CategorySpinnerListAdapter(this, android.R.layout.simple_spinner_dropdown_item, R.id.categoryLabel,  mCategoryItems);
-        categorySpinner.setAdapter(adapter);
+        mCategorySpinner.setAdapter(adapter);
 
         Intent intent = getIntent();
         if (intent != null){
             mCurrentExpense = intent.getParcelableExtra(DailyExpensesFragment.EXPENSE_EXTRA);
             if (mCurrentExpense != null) {
-                titleEditText.setText(mCurrentExpense.getTitle());
-                descriptionEditText.setText(mCurrentExpense.getDescription());
-                amountEditText.setText(String.valueOf(mCurrentExpense.getAmount()));
-                dateEditText.setText(mDateFormatter.format(mCurrentExpense.getDate()));
-                categorySpinner.setSelection(adapter.getPosition(mCurrentExpense.getCategory()));
+                mTitleEditText.setText(mCurrentExpense.getTitle());
+                mDescriptionEditText.setText(mCurrentExpense.getDescription());
+                mAmountEditText.setText(String.valueOf(mCurrentExpense.getAmount()));
+                mDateEditText.setText(mDateFormatter.format(mCurrentExpense.getDate()));
+                mCategorySpinner.setSelection(adapter.getPosition(mCurrentExpense.getCategory()));
             }
         }
 
-        editExpenseButton.setOnClickListener(new View.OnClickListener() {
+        mEditExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = titleEditText.getText().toString();
-                String description = descriptionEditText.getText().toString();
-                Float amount = Float.parseFloat(amountEditText.getText().toString());
+                String title = mTitleEditText.getText().toString();
+                String description = mDescriptionEditText.getText().toString();
+                Float amount = Float.parseFloat(mAmountEditText.getText().toString());
                 Date date = new Date();
                 try {
-                    date = mDateFormatter.parse(dateEditText.getText().toString());
+                    date = mDateFormatter.parse(mDateEditText.getText().toString());
                 } catch (ParseException e) {
                     Log.e(TAG, e.getMessage());
                 }
-                Category category = mCategoryItems.get(categorySpinner.getSelectedItemPosition());
+                Category category = mCategoryItems.get(mCategorySpinner.getSelectedItemPosition());
 
-                if (mCurrentExpense == null){
+                if (mCurrentExpense == null) {
                     mCurrentExpense = new Expense(title, description, category, amount, date);
                 } else {
                     mCurrentExpense.setTitle(title);
@@ -110,7 +113,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             }
         });
 
-        calendarIcon.setOnClickListener(new View.OnClickListener() {
+        mCalendarIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog(v);
@@ -122,7 +125,7 @@ public class EditExpenseActivity extends AppCompatActivity {
         DialogFragment newFragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                dateEditText.setText((month+1) + "/" + day + "/" + year);
+                mDateEditText.setText((month + 1) + "/" + day + "/" + year);
             }
         };
         newFragment.show(getSupportFragmentManager(), "datePicker");
