@@ -3,7 +3,6 @@ package com.macedo.moneymanager.database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.macedo.moneymanager.models.Expense;
 import com.macedo.moneymanager.models.MonthExpense;
@@ -137,11 +136,8 @@ public class MonthExpensesDatasource {
         long fromUnixTime = fromDate.getTime()/1000;
         long toUnixTime = toDate.getTime()/1000;
 
-        String query = "SELECT SUM(T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE + " T " +
-                " WHERE T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime;
-        Log.d(TAG, query);
-
-        Cursor cursor = database.rawQuery(query, null);
+        Cursor cursor = database.rawQuery("SELECT SUM(T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE + " T " +
+                " WHERE T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime, null);
 
         if(cursor.moveToFirst()){
             do {

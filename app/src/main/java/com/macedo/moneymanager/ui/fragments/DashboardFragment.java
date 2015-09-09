@@ -188,7 +188,7 @@ public class DashboardFragment extends Fragment {
 
         mTargetLabel.setText(MONTHS_TO_TARGET_LABEL + "$" + String.format("%.2f", targetAmount));
 
-        int monthsToTarget = new Float((targetAmount - balance) / incomeAmount).intValue();
+        int monthsToTarget = (int) Math.ceil((double) (targetAmount - balance) / incomeAmount);
         if (monthsToTarget < 0) { monthsToTarget = 0; }
 
         mMonthsToTargetTextView.setText(String.valueOf(monthsToTarget));
