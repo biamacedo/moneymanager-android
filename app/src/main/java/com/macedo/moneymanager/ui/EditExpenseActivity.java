@@ -27,6 +27,7 @@ import com.macedo.moneymanager.ui.fragments.DatePickerFragment;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class EditExpenseActivity extends AppCompatActivity {
@@ -38,13 +39,11 @@ public class EditExpenseActivity extends AppCompatActivity {
     private EditText mDateEditText;
     private EditText mAmountEditText;
     private Spinner mCategorySpinner;
-    private Button mEditExpenseButton;
-    private ImageView mCalendarIcon;
 
     private Expense mCurrentExpense;
 
     public CategoriesDatasource categoriesDatasource = new CategoriesDatasource(this);
-    private ArrayList<Category> mCategoryItems = new ArrayList<Category>();
+    private ArrayList<Category> mCategoryItems = new ArrayList<>();
 
     public SimpleDateFormat mDateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 
@@ -58,8 +57,8 @@ public class EditExpenseActivity extends AppCompatActivity {
         mAmountEditText = (EditText) findViewById(R.id.amountEditText);
         mDateEditText = (EditText) findViewById(R.id.dateEditText);
         mCategorySpinner = (Spinner) findViewById(R.id.categorySpinner);
-        mEditExpenseButton = (Button) findViewById(R.id.editExpenseButton);
-        mCalendarIcon = (ImageView) findViewById(R.id.calendarIcon);
+        Button editExpenseButton = (Button) findViewById(R.id.editExpenseButton);
+        ImageView calendarIcon = (ImageView) findViewById(R.id.calendarIcon);
 
         Date now = new Date();
         mDateEditText.setText(mDateFormatter.format(now));
@@ -81,7 +80,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             }
         }
 
-        mEditExpenseButton.setOnClickListener(new View.OnClickListener() {
+        editExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = mTitleEditText.getText().toString();
@@ -113,7 +112,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             }
         });
 
-        mCalendarIcon.setOnClickListener(new View.OnClickListener() {
+        calendarIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog(v);
@@ -125,7 +124,12 @@ public class EditExpenseActivity extends AppCompatActivity {
         DialogFragment newFragment = new DatePickerFragment() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
-                mDateEditText.setText((month + 1) + "/" + day + "/" + year);
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, year);
+                cal.set(Calendar.MONTH, month);
+                cal.set(Calendar.DATE, day);
+                Date dateSelected= cal.getTime();
+                mDateEditText.setText(mDateFormatter.format(dateSelected));
             }
         };
         newFragment.show(getSupportFragmentManager(), "datePicker");

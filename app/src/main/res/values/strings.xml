@@ -26,8 +26,10 @@
     <string name="title_activity_monthly_expense">Monthly Expenses</string>
     <string name="title_activity_edit_account">Edit Account</string>
 
-    <string name="content_desc_expense_icon">Expense Icon</string>
-    <string name="content_desc_category_icon">Category Icon</string>
+    <string name="image_content_desc_down_arrow">Down Arrow Icon</string>
+    <string name="image_content_desc_up_arrow">Up Arrow Icon</string>
+    <string name="image_content_desc_expense_icon">Expense Icon</string>
+    <string name="image_content_desc_category_icon">Category Icon</string>
 
     <string-array name="drawer_list">
         <item>Dashboard</item>
@@ -47,7 +49,43 @@
     <string name="settings_income_summary">Input your estimated monthly income to calculate target</string>
     <string name="settings_income_key">INCOME</string>
 
+    <string name="edit_expense_description_label">Description (Optional)</string>
+    <string name="edit_expense_category_label">Category</string>
+    <string name="edit_expense_amount_label">Amount</string>
+    <string name="edit_expense_date_hint">Format: mm/dd/yyyy</string>
+    <string name="edit_expense_amount_hint">0.00</string>
+    <string name="edit_expense_save_expense_button">Save Expense</string>
+    <string name="edit_expense_date_label">Date</string>
+    <string name="edit_expense_title_label">Title</string>
+    <string name="edit_expense_content_desc_calendar_icon">Calendar Icon</string>
+
+    <string name="edit_account_name_label">Name</string>
+    <string name="edit_account_category_label">Category</string>
+    <string name="edit_account_amount_label">Amount</string>
+    <string name="edit_account_save_account_button">Save Account</string>
+
+    <string name="footer_total_label">Total:</string>
+
+    <string name="dashboard_check_ok_text">Check Between Accounts and Expenses: OK</string>
+    <string name="dashboard_months_to_target_placement">Months\nto target:\n$100.00</string>
+    <string name="dashboard_time_to_target_placement">0</string>
+    <string name="dashboard_balance_label">Balance</string>
+
     <string-array name="months_char">
+        <item>J</item>
+        <item>F</item>
+        <item>M</item>
+        <item>A</item>
+        <item>M</item>
+        <item>J</item>
+        <item>J</item>
+        <item>A</item>
+        <item>S</item>
+        <item>O</item>
+        <item>N</item>
+        <item>D</item>
+    </string-array>
+    <string-array name="months_char2">
         <item>Jan</item>
         <item>Feb</item>
         <item>Mar</item>

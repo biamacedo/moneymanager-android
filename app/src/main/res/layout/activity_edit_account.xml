@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:text="@string/edit_account_name_label"
         android:id="@+id/titleLabel"/>
 
     <EditText
@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category"
+        android:text="@string/edit_account_category_label"
         android:id="@+id/categoryLabel"/>
 
     <Spinner
@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Amount"
+        android:text="@string/edit_account_amount_label"
         android:id="@+id/amountLabel"/>
 
     <EditText
@@ -52,7 +52,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Account"
+        android:text="@string/edit_account_save_account_button"
         android:id="@+id/editAccountButton"/>
 
 </LinearLayout>

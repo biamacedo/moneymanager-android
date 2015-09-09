@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text="@string/edit_expense_title_label"
         android:id="@+id/titleLabel"/>
 
     <EditText
@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date"
+        android:text="@string/edit_expense_date_label"
         android:id="@+id/dateLabel"/>
 
     <RelativeLayout
@@ -41,7 +41,7 @@
             android:layout_toLeftOf="@+id/calendarIcon"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:hint="Format: mm/dd/yyyy"
+            android:hint="@string/edit_expense_date_hint"
             android:maxLength="10"
             android:singleLine="true"/>
 
@@ -57,13 +57,14 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="false"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:contentDescription="@string/edit_expense_content_desc_calendar_icon"/>
     </RelativeLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Amount"
+        android:text="@string/edit_expense_amount_label"
         android:id="@+id/amountLabel"/>
 
     <EditText
@@ -71,13 +72,14 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal|numberSigned"
         android:defaultValue="0.00"
+        android:hint="@string/edit_expense_amount_hint"
         android:ems="10"
         android:id="@+id/amountEditText"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category"
+        android:text="@string/edit_expense_category_label"
         android:id="@+id/categoryLabel"/>
 
     <Spinner
@@ -89,7 +91,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Description"
+        android:text="@string/edit_expense_description_label"
         android:id="@+id/descriptionLabel"/>
 
     <EditText
@@ -101,7 +103,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Expense"
+        android:text="@string/edit_expense_save_expense_button"
         android:id="@+id/editExpenseButton"/>
 
 </LinearLayout>

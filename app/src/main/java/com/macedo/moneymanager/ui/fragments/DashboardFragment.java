@@ -26,7 +26,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.macedo.moneymanager.R;
 import com.macedo.moneymanager.database.ExpensesDatasource;
 import com.macedo.moneymanager.database.MonthExpensesDatasource;
-import com.macedo.moneymanager.models.ManagerCheck;
+import com.macedo.moneymanager.models.CheckManager;
 import com.macedo.moneymanager.models.MonthExpense;
 import com.macedo.moneymanager.utils.AmountFormatter;
 
@@ -49,7 +49,7 @@ public class DashboardFragment extends Fragment {
     LineChart mLineChart;
 
     ExpensesDatasource mExpensesDatasource;
-    ManagerCheck mManagerCheck;
+    CheckManager mCheckManager;
 
     public static DashboardFragment newInstance() {
         return new DashboardFragment();
@@ -68,7 +68,7 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        mManagerCheck = new ManagerCheck(getActivity());
+        mCheckManager = new CheckManager(getActivity());
 
         mBalanceTextView = (TextView) rootView.findViewById(R.id.balanceTextView);
         mMonthsToTargetTextView = (TextView) rootView.findViewById(R.id.targetTextView);
@@ -118,27 +118,27 @@ public class DashboardFragment extends Fragment {
         String[] monthValues = getActivity().getResources().getStringArray(R.array.months_char);
         ArrayList<String> chartXValues = new ArrayList<String>( Arrays.asList(monthValues));
 
-        ArrayList<Entry> incomeValues = new ArrayList<Entry>();
+        ArrayList<Entry> monthTotalValues = new ArrayList<Entry>();
         for (int i = 0; i < monthExpenses.size(); i++){
             Entry newEntry = new Entry(monthExpenses.get(i).getAmount(), i);
-            incomeValues.add(newEntry);
+            monthTotalValues.add(newEntry);
         }
 
-        LineDataSet incomeDataSet = new LineDataSet(incomeValues, "Income");
-        incomeDataSet.setColor(getActivity().getResources().getColor(R.color.graph_income));
-        incomeDataSet.setLineWidth(2.5f);
-        incomeDataSet.setCircleColor(getActivity().getResources().getColor(R.color.graph_income));
-        incomeDataSet.setCircleSize(5f);
-        incomeDataSet.setFillColor(getActivity().getResources().getColor(R.color.graph_income));
-        incomeDataSet.setDrawCubic(true);
-        incomeDataSet.setDrawValues(true);
-        incomeDataSet.setValueTextSize(10f);
-        incomeDataSet.setValueTextColor(getActivity().getResources().getColor(android.R.color.black));
+        LineDataSet monthTotalDataSet = new LineDataSet(monthTotalValues, "Month Totals");
+        monthTotalDataSet.setColor(getActivity().getResources().getColor(R.color.graph_total_value));
+        monthTotalDataSet.setLineWidth(2.5f);
+        monthTotalDataSet.setCircleColor(getActivity().getResources().getColor(R.color.graph_total_value));
+        monthTotalDataSet.setCircleSize(5f);
+        monthTotalDataSet.setFillColor(getActivity().getResources().getColor(R.color.graph_total_value));
+        monthTotalDataSet.setDrawCubic(true);
+        monthTotalDataSet.setDrawValues(true);
+        monthTotalDataSet.setValueTextSize(10f);
+        monthTotalDataSet.setValueTextColor(getActivity().getResources().getColor(R.color.graph_value_label));
 
-        incomeDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        monthTotalDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-        dataSets.add(incomeDataSet);
+        dataSets.add(monthTotalDataSet);
 
         LineData data = new LineData(chartXValues, dataSets);
         mLineChart.setData(data);
@@ -155,7 +155,7 @@ public class DashboardFragment extends Fragment {
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
-
+        xAxis.setLabelsToSkip(0);
 
         AmountFormatter custom = new AmountFormatter();
 
@@ -197,12 +197,12 @@ public class DashboardFragment extends Fragment {
     }
 
     public void verifyAmounts(){
-        if(!mManagerCheck.verifyMatchAccountExpenses()){
-            String differenceAmount = "$" + String.format("%.2f", mManagerCheck.getDifferenceAmount());
-            mCheckTextView.setText(ManagerCheck.AMOUNT_MISMATCH + differenceAmount);
+        if(!mCheckManager.verifyMatchAccountExpenses()){
+            String differenceAmount = "$" + String.format("%.2f", mCheckManager.getDifferenceAmount());
+            mCheckTextView.setText(CheckManager.AMOUNT_MISMATCH + differenceAmount);
             mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkError));
         } else {
-            mCheckTextView.setText(ManagerCheck.AMOUNT_CORRECT);
+            mCheckTextView.setText(CheckManager.AMOUNT_CORRECT);
             mCheckTextView.setBackgroundColor(getResources().getColor(R.color.checkOk));
         }
     }

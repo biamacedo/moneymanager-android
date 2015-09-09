@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="@color/footer">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp"
+                android:background="@color/footer">
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,9 +64,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/upArrow"
                 android:src="@drawable/ic_arrow_up"
-                android:layout_below="@+id/monthLabel"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                android:contentDescription="@string/image_content_desc_up_arrow"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,19 +73,14 @@
                 tools:text="$ 10000.00"
                 android:id="@+id/winAmount"
                 android:paddingTop="@dimen/vertical_padding"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_alignBottom="@+id/upArrow"
-                android:layout_toRightOf="@+id/upArrow"
-                android:layout_toEndOf="@+id/upArrow"/>
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/downArrow"
                 android:src="@drawable/ic_arrow_down"
-                android:layout_below="@+id/monthLabel"
-                android:layout_toRightOf="@+id/monthLabel"
-                android:layout_toEndOf="@+id/monthLabel"/>
+                android:contentDescription="@string/image_content_desc_down_arrow"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,12 +89,7 @@
                 tools:text="$ -5000.00"
                 android:id="@+id/lossAmount"
                 android:paddingTop="@dimen/vertical_padding"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_below="@+id/totalAmount"
-                android:layout_toRightOf="@+id/downArrow"
-                android:layout_toEndOf="@+id/downArrow"/>
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
 
         </LinearLayout>
     </RelativeLayout>
-
-</LinearLayout>

@@ -8,7 +8,7 @@ import com.macedo.moneymanager.database.ExpensesDatasource;
 /**
  * Created by Beatriz on 08/09/2015.
  */
-public class ManagerCheck {
+public class CheckManager {
 
     private AccountsDatasource mAccountsDatasource;
     private ExpensesDatasource mExpensesDatasource;
@@ -21,7 +21,7 @@ public class ManagerCheck {
     public static final String AMOUNT_MISMATCH = "Accounts and Expenses Mismatch!\n Missing: ";
     public static final String AMOUNT_CORRECT = "Check Between Accounts and Expenses: OK ";
 
-    public ManagerCheck(Context context){
+    public CheckManager(Context context){
         mContext = context;
         mAccountsDatasource = new AccountsDatasource(mContext);
         mExpensesDatasource = new ExpensesDatasource(mContext);

@@ -6,7 +6,6 @@
               android:background="@android:color/transparent"
               tools:background="@android:color/black">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +20,7 @@
             android:layout_alignParentLeft="true"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:contentDescription="@string/content_desc_expense_icon"
+            android:contentDescription="@string/image_content_desc_expense_icon"
             tools:src="@drawable/ic_question"
             android:layout_alignParentTop="true"/>
 

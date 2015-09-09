@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:contentDescription="@string/content_desc_category_icon"
+            android:contentDescription="@string/image_content_desc_category_icon"
             tools:src="@drawable/ic_question"
             android:layout_alignParentTop="true"/>
 

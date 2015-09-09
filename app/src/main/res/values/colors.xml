@@ -8,6 +8,7 @@
     <color name="checkError">#aaff6e62</color>
     <color name="footer">#96b1b1b1</color>
 
-    <color name="graph_income">#24950e</color>
+    <color name="graph_total_value">#24950e</color>
+    <color name="graph_value_label">#000000</color>
 
 </resources>

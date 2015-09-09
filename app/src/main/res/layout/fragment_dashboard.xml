@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Balance"
+                android:text="@string/dashboard_balance_label"
                 android:id="@+id/balanceLabel"/>
 
             <TextView
@@ -55,20 +55,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="0"
+                android:text="@string/dashboard_time_to_target_placement"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:id="@+id/targetTextView"
                 android:layout_marginLeft="@dimen/horizontal_padding"
                 android:textSize="24sp"
-                android:padding="@dimen/circle_padding"
+                android:padding="@dimen/months_padding"
                 android:textIsSelectable="true"
                 android:background="@color/target"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Months\nto target:\n$100.00"
+                android:text="@string/dashboard_months_to_target_placement"
                 android:id="@+id/targetLabel"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -82,7 +82,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Check Between Accounts and Expenses: OK "
+        android:text="@string/dashboard_check_ok_text"
         android:id="@+id/checkTextView"
         android:paddingLeft="@dimen/horizontal_padding"
         android:paddingRight="@dimen/horizontal_padding"
