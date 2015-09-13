@@ -5,91 +5,92 @@
                 android:layout_height="wrap_content"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
-                android:background="@color/footer">
+                android:background="@color/footer_bkg">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/footer_line_height"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="italic"
-            tools:text="November"
-            android:paddingTop="@dimen/vertical_padding"
-            android:paddingBottom="@dimen/small_vertical_padding"
+            tools:text="Year"
+            android:textColor="@color/footer_font"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:id="@+id/monthLabel"
             android:layout_toLeftOf="@+id/totalAmount"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/footer_line_height"
             android:textAppearance="?android:attr/textAppearanceMedium"
             tools:text="$ 1111150.00"
             android:textStyle="bold"
-            android:paddingTop="@dimen/vertical_padding"
-            android:paddingBottom="@dimen/small_vertical_padding"
+            android:textColor="@color/footer_font"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:id="@+id/totalAmount"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/expensePercentage"
-            android:layout_toStartOf="@+id/expensePercentage"/>
+            android:layout_toStartOf="@+id/expensePercentage"
+            android:gravity="center_vertical"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/footer_line_height"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/footer_font"
             tools:text="(100.00%)"
-            android:paddingTop="@dimen/vertical_padding"
-            android:paddingBottom="@dimen/small_vertical_padding"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:id="@+id/expensePercentage"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:gravity="center_vertical"/>
 
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/footer_line_height"
             android:layout_below="@+id/monthLabel"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:paddingBottom="@dimen/small_vertical_padding"
             android:gravity="center">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/footer_image"
+                android:layout_height="@dimen/footer_image"
                 android:id="@+id/upArrow"
-                android:src="@drawable/ic_arrow_up"
+                android:src="@drawable/ic_angle_up"
                 android:contentDescription="@string/image_content_desc_up_arrow"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/footer_line_height"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 tools:text="$ 10000.00"
+                android:textColor="@color/footer_font"
                 android:id="@+id/winAmount"
-                android:paddingTop="@dimen/vertical_padding"
-                android:paddingRight="@dimen/activity_horizontal_margin"/>
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:gravity="center_vertical"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/footer_image"
+                android:layout_height="@dimen/footer_image"
                 android:id="@+id/downArrow"
-                android:src="@drawable/ic_arrow_down"
+                android:src="@drawable/ic_angle_down"
                 android:contentDescription="@string/image_content_desc_down_arrow"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/footer_line_height"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 tools:text="$ -5000.00"
+                android:textColor="@color/footer_font"
                 android:id="@+id/lossAmount"
-                android:paddingTop="@dimen/vertical_padding"
-                android:paddingRight="@dimen/activity_horizontal_margin"/>
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:gravity="center_vertical"/>
 
         </LinearLayout>
     </RelativeLayout>

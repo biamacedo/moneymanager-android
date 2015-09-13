@@ -100,10 +100,4 @@
         android:id="@+id/descriptionEditText"
         android:inputType="textMultiLine"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_expense_save_expense_button"
-        android:id="@+id/editExpenseButton"/>
-
 </LinearLayout>

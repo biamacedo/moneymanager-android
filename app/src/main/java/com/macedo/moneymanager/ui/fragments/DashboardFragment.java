@@ -125,15 +125,14 @@ public class DashboardFragment extends Fragment {
         }
 
         LineDataSet monthTotalDataSet = new LineDataSet(monthTotalValues, "Month Totals");
-        monthTotalDataSet.setColor(getActivity().getResources().getColor(R.color.graph_total_value));
-        monthTotalDataSet.setLineWidth(2.5f);
-        monthTotalDataSet.setCircleColor(getActivity().getResources().getColor(R.color.graph_total_value));
-        monthTotalDataSet.setCircleSize(5f);
-        monthTotalDataSet.setFillColor(getActivity().getResources().getColor(R.color.graph_total_value));
-        monthTotalDataSet.setDrawCubic(true);
+        monthTotalDataSet.setColor(getActivity().getResources().getColor(R.color.graph_line));
+        monthTotalDataSet.setLineWidth(3f);
+        monthTotalDataSet.setCircleSize(0f);
+        //monthTotalDataSet.setFillColor(getActivity().getResources().getColor(R.color.graph_total_value));
+        monthTotalDataSet.setDrawCubic(false);
         monthTotalDataSet.setDrawValues(true);
         monthTotalDataSet.setValueTextSize(10f);
-        monthTotalDataSet.setValueTextColor(getActivity().getResources().getColor(R.color.graph_value_label));
+        monthTotalDataSet.setValueTextColor(getActivity().getResources().getColor(R.color.graph_font));
 
         monthTotalDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
 
@@ -144,6 +143,7 @@ public class DashboardFragment extends Fragment {
         mLineChart.setData(data);
 
         mLineChart.setDrawGridBackground(false);
+        mLineChart.setBackgroundColor(getActivity().getResources().getColor(R.color.graph_bkg));
         mLineChart.setDrawBorders(false);
         // enable value highlighting
         mLineChart.setHighlightEnabled(true);
@@ -155,6 +155,8 @@ public class DashboardFragment extends Fragment {
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setGridColor(getActivity().getResources().getColor(R.color.graph_grid));
+        xAxis.setTextColor(getActivity().getResources().getColor(R.color.graph_font));
         xAxis.setLabelsToSkip(0);
 
         AmountFormatter custom = new AmountFormatter();
@@ -163,6 +165,8 @@ public class DashboardFragment extends Fragment {
         leftAxis.setLabelCount(8, false);
         leftAxis.setValueFormatter(custom);
         leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setGridColor(getActivity().getResources().getColor(R.color.graph_grid));
+        leftAxis.setTextColor(getActivity().getResources().getColor(R.color.graph_font));
         leftAxis.setSpaceTop(15f);
 
         YAxis rightAxis = mLineChart.getAxisRight();

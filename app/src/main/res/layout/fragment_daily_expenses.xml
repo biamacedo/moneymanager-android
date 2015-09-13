@@ -6,14 +6,14 @@
 
 
     <se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/accountListView"
+        android:id="@+id/listView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:divider="@android:color/transparent"
-        android:dividerHeight="@dimen/list_item_vertical_margin"
+        android:dividerHeight="0dp"
         android:layout_above="@+id/footer"/>
 
     <LinearLayout
@@ -24,7 +24,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@color/footer">
+        android:background="@color/footer_bkg">
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,6 +32,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/footer_total_label"
             android:id="@+id/totalLabel"
+            android:textColor="@color/footer_font"
             android:paddingTop="@dimen/vertical_padding"
             android:paddingBottom="@dimen/vertical_padding"
             android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -45,6 +46,7 @@
             android:textStyle="bold"
             android:gravity="right"
             android:id="@+id/totalAmount"
+            android:textColor="@color/footer_font"
             android:layout_weight="2"
             android:paddingTop="@dimen/vertical_padding"
             android:paddingBottom="@dimen/vertical_padding"

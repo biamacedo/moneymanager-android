@@ -6,9 +6,10 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,7 +58,6 @@ public class EditExpenseActivity extends AppCompatActivity {
         mAmountEditText = (EditText) findViewById(R.id.amountEditText);
         mDateEditText = (EditText) findViewById(R.id.dateEditText);
         mCategorySpinner = (Spinner) findViewById(R.id.categorySpinner);
-        Button editExpenseButton = (Button) findViewById(R.id.editExpenseButton);
         ImageView calendarIcon = (ImageView) findViewById(R.id.calendarIcon);
 
         Date now = new Date();
@@ -80,9 +80,48 @@ public class EditExpenseActivity extends AppCompatActivity {
             }
         }
 
-        editExpenseButton.setOnClickListener(new View.OnClickListener() {
+        calendarIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, year);
+                cal.set(Calendar.MONTH, month);
+                cal.set(Calendar.DATE, day);
+                Date dateSelected= cal.getTime();
+                mDateEditText.setText(mDateFormatter.format(dateSelected));
+            }
+        };
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_edit_activity, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == android.R.id.home) {
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            NavUtils.navigateUpTo(this, intent);
+            return true;
+        } else if (itemId == R.id.action_save) {
+
+            if (validateFields()) {
                 String title = mTitleEditText.getText().toString();
                 String description = mDescriptionEditText.getText().toString();
                 Float amount = Float.parseFloat(mAmountEditText.getText().toString());
@@ -110,40 +149,26 @@ public class EditExpenseActivity extends AppCompatActivity {
 
                 Toast.makeText(EditExpenseActivity.this, "Expense Saved!", Toast.LENGTH_LONG).show();
             }
-        });
-
-        calendarIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(v);
-            }
-        });
-    }
-
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.YEAR, year);
-                cal.set(Calendar.MONTH, month);
-                cal.set(Calendar.DATE, day);
-                Date dateSelected= cal.getTime();
-                mDateEditText.setText(mDateFormatter.format(dateSelected));
-            }
-        };
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()== android.R.id.home) {
-            Intent intent = NavUtils.getParentActivityIntent(this);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            NavUtils.navigateUpTo(this, intent);
-            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean validateFields(){
+        if (mTitleEditText.getText().toString().equals("")||  mAmountEditText.getText().toString().equals("")){
+            Toast.makeText(EditExpenseActivity.this, "Please fill all mandatory fields!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        String inputDate = mDateEditText.getText().toString();
+        try {
+            mDateFormatter.setLenient(false);
+            Date date = mDateFormatter.parse(inputDate);
+        } catch (ParseException e) {
+            Toast.makeText(EditExpenseActivity.this, "Please input date in 'mm/dd/yyyy' format!", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
     }
 
     public void saveExpense(){

@@ -18,4 +18,17 @@
 
     <dimen name="section_header_vertical_padding">2dp</dimen>
 
+
+    <!-- Content -->
+    <dimen name="content_image">30dp</dimen>
+    <dimen name="content_line_height">30dp</dimen>
+
+    <!-- Footer -->
+    <dimen name="footer_image">30dp</dimen>
+    <dimen name="footer_line_height">30dp</dimen>
+
+    <!-- Footer -->
+    <dimen name="content_margin">10dp</dimen>
+
+
 </resources>

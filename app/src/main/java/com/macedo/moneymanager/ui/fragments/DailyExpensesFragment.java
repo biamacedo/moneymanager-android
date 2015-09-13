@@ -5,12 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,15 +30,17 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class DailyExpensesFragment extends Fragment {
 
-    public static final String TAG = DailyExpensesFragment.class.getSimpleName();
+    private static final String TAG = DailyExpensesFragment.class.getSimpleName();
 
     public static final String EXPENSE_EXTRA = "EXPENSE";
 
-    public ExpandableStickyListHeadersListView mExpandableStickyList;
-    public TextView mTotalAmountTextView;
+    private ExpandableStickyListHeadersListView mExpandableStickyList;
+    private TextView mTotalAmountTextView;
 
-    public ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
-    ArrayList<Expense> mExpenses;
+    private ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
+    private ArrayList<Expense> mExpenses;
+
+    private DailyExpenseItemListAdapter mAdapter;
 
     public static DailyExpensesFragment newInstance() {
         return new DailyExpensesFragment();
@@ -53,7 +57,7 @@ public class DailyExpensesFragment extends Fragment {
                                 Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_daily_expenses, container, false);
 
-        mExpandableStickyList = (ExpandableStickyListHeadersListView) rootView.findViewById(R.id.accountListView);
+        mExpandableStickyList = (ExpandableStickyListHeadersListView) rootView.findViewById(R.id.listView);
         mTotalAmountTextView = (TextView) rootView.findViewById(R.id.totalAmount);
 
         mExpandableStickyList.setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
@@ -67,30 +71,115 @@ public class DailyExpensesFragment extends Fragment {
             }
         });
 
-        mExpandableStickyList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mExpandableStickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
                 Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
                 Expense clickedExpense = mExpenses.get(position);
                 intent.putExtra(EXPENSE_EXTRA, clickedExpense);
                 startActivity(intent);
-                return true;
             }
         });
 
-        mExpandableStickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mExpandableStickyList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mExpandableStickyList.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                if (!view.isSelected()) {
-                    view.setSelected(true);
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                // Here you can do something when items are selected/de-selected,
+                // such as update the title in the CAB
+                final int checkedCount = mExpandableStickyList.getCheckedItemCount();
+                switch (checkedCount) {
+                    case 0:
+                        mode.setSubtitle(null);
+                        break;
+                    case 1:
+                        mode.setSubtitle("One expenses selected");
+                        break;
+                    default:
+                        mode.setSubtitle(checkedCount + " expenses selected");
+                        break;
+                }
+
+                if (checked) {
                     mSelectedItems.add(position);
                 } else {
-                    view.setSelected(false);
                     mSelectedItems.remove(Integer.valueOf(position));
                 }
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                // Respond to clicks on the actions in the CAB
+                switch (item.getItemId()) {
+                    case R.id.action_delete:
+                        deleteSelectedItems();
+                        mode.finish(); // Action picked, so close the CAB
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                // Inflate the menu for the CAB
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.menu_list_context, menu);
+                mode.setTitle("Select Expenses");
+                mAdapter.setSelectMode(true);
+                mAdapter.notifyDataSetChanged();
+                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                // Here you can make any necessary updates to the activity when
+                // the CAB is removed. By default, selected items are deselected/unchecked.
+                mAdapter.setSelectMode(false);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                // Here you can perform updates to the CAB due to
+                // an invalidate() request
+                return false;
             }
         });
+
+        // Inflate the layout for this fragment
         return rootView;
+    }
+
+    private void deleteSelectedItems(){
+        if (mSelectedItems.size() > 0) {
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setTitle("Delete Item")
+                    .setMessage("Are you sure you want to delete " + mSelectedItems.size() + " item(s)?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                            ExpensesDatasource datasource = new ExpensesDatasource(getActivity());
+                            for(Integer i : mSelectedItems){
+                                datasource.delete(mExpenses.get(i).getId());
+                                refreshList();
+                            }
+                            mSelectedItems.clear();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(R.drawable.ic_exclamation_triangle)
+                    .show();
+            refreshList();
+        } else {
+            Toast.makeText(getActivity(), "No item selected.", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -103,7 +192,8 @@ public class DailyExpensesFragment extends Fragment {
     public void refreshList(){
         ExpensesDatasource datasource = new ExpensesDatasource(getActivity());
         mExpenses = datasource.read();
-        mExpandableStickyList.setAdapter(new DailyExpenseItemListAdapter(getActivity(), mExpenses));
+        mAdapter = new DailyExpenseItemListAdapter(getActivity(), mExpenses, mSelectedItems);
+        mExpandableStickyList.setAdapter(mAdapter);
         mTotalAmountTextView.setText("$" + String.format("%.2f", datasource.sumAllExpenses()));
     }
 
@@ -125,41 +215,6 @@ public class DailyExpensesFragment extends Fragment {
         if (id == R.id.action_new_expense) {
             Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
             startActivity(intent);
-            return true;
-        } /*else if (id == R.id.action_edit_expense) {
-            if (mSelectedItems.size() > 0) {
-                Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
-                Expense clickedExpense = mExpenses.get(mSelectedItems.get(0));
-                intent.putExtra(EXPENSE_EXTRA, clickedExpense);
-                startActivity(intent);
-            } else {
-                Toast.makeText(getActivity(), "No item selected.", Toast.LENGTH_LONG).show();
-            }
-        } */else if (id == R.id.action_delete_expense) {
-            if (mSelectedItems.size() > 0){
-                AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle("Delete Item")
-                        .setMessage("Are you sure you want to delete " + mSelectedItems.size() + " item(s)?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // continue with delete
-                                ExpensesDatasource datasource = new ExpensesDatasource(getActivity());
-                                for(Integer i : mSelectedItems){
-                                    datasource.delete(mExpenses.get(i).getId());
-                                    refreshList();
-                                }
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // do nothing
-                            }
-                        })
-                        .setIcon(R.drawable.ic_exclamation_triangle)
-                        .show();
-            } else {
-                Toast.makeText(getActivity(), "No item selected.", Toast.LENGTH_LONG).show();
-            }
             return true;
         }
 

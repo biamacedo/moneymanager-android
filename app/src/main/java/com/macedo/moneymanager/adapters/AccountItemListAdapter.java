@@ -20,10 +20,18 @@ public class AccountItemListAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Account> mAccountItems;
+    private List<Integer> mSelectedItems;
+    private boolean mSelectMode;
 
-    public AccountItemListAdapter(Context context, List<Account> accountItems) {
+    public AccountItemListAdapter(Context context, List<Account> accountItems, List<Integer> selectedItems  ) {
         this.mContext = context;
         this.mAccountItems = accountItems;
+        this.mSelectedItems = selectedItems;
+        mSelectMode = false;
+    }
+
+    public void setSelectMode(boolean selectMode) {
+        mSelectMode = selectMode;
     }
 
     @Override
@@ -59,15 +67,24 @@ public class AccountItemListAdapter extends BaseAdapter {
 
         Account account = mAccountItems.get(position);
 
-        if (account.getCategory().getIconName() != null){
-            try {
-                int iconDrawable = mContext.getResources().getIdentifier(account.getCategory().getIconName(), "drawable", mContext.getPackageName());
-                holder.accountIcon.setImageResource(iconDrawable);
-            } catch (Exception e){
-                holder.accountIcon.setImageResource(R.drawable.ic_question);
+        if (mSelectMode){
+            if (mSelectedItems.contains(Integer.valueOf(position))){
+                holder.accountIcon.setImageResource(R.drawable.ic_check_square);
+            } else {
+                holder.accountIcon.setImageResource(R.drawable.ic_square);
             }
         } else {
-            holder.accountIcon.setImageResource(R.drawable.ic_question);
+
+            if (account.getCategory().getIconName() != null) {
+                try {
+                    int iconDrawable = mContext.getResources().getIdentifier(account.getCategory().getIconName(), "drawable", mContext.getPackageName());
+                    holder.accountIcon.setImageResource(iconDrawable);
+                } catch (Exception e) {
+                    holder.accountIcon.setImageResource(R.drawable.ic_question);
+                }
+            } else {
+                holder.accountIcon.setImageResource(R.drawable.ic_question);
+            }
         }
 
         holder.accountNameLabel.setText(account.getName());

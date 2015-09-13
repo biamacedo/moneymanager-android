@@ -1,14 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="item_pressed_color">#aaafff8f</color>
-    <color name="item_default_color">@android:color/white</color>
+    <color name="item_pressed_color">#00bfa3</color>
+    <color name="item_default_color">#ffffff</color>
 
     <color name="target">#aaafff8f</color>
-    <color name="checkOk">#aaffea77</color>
+    <color name="checkOk">#aaffea77</color>#edc74c
     <color name="checkError">#aaff6e62</color>
-    <color name="footer">#96b1b1b1</color>
 
     <color name="graph_total_value">#24950e</color>
     <color name="graph_value_label">#000000</color>
+
+    <!-- All -->
+    <color name="background">#ebedef</color>
+    <color name="color_green">#00bfa3</color>
+    <color name="color_red">#de6262</color>
+    <color name="color_yellow">#ebedef</color>
+    <color name="color_blue">#ebedef</color>
+    <color name="color_purple">#ebedef</color>
+
+    <color name="color_alt_green">#00a78e</color>
+
+    <!-- Action Bar -->
+    <color name="action_bar_primary">#596b79</color>
+    <color name="action_bar_primary_dark">#313d45</color>
+    <color name="action_bar_accent">#00bfa3</color>
+
+    <color name="action_bar_icon">#f2f1f2</color>
+    <color name="action_bar_icon_bkg">#596b79</color>
+    <color name="action_bar_text_color_primary">#f2f1f2</color>
+
+    <!-- List -->
+    <color name="section_header">#9da6ac</color>
+    <color name="section_header_font">#f2f1f2</color>
+    <color name="section_footer">#9da6ac</color>
+    <color name="list_icon">#596b79</color>
+    <color name="list_item_selected">#ffffff</color>
+    <color name="footer_bkg">#596b79</color>
+    <color name="footer_font">#f2f1f2</color>
+
+    <!-- Dash -->
+    <color name="positive_number">#00bfa3</color>
+    <color name="negative_number">#de6262</color>
+
+    <color name="graph_bkg">#00bfa3</color>
+    <color name="graph_grid">#00a78e</color>
+    <color name="graph_line">#ffffff</color>
+    <color name="graph_font">#ffffff</color>
+
+    <!-- Content -->
+    <color name="content_bkg">#ffffff</color>
+    <color name="content_font">#9da6ac</color>
+    <color name="content_divider">#9da6ac</color>
+
+    <!-- Tools Test Color -->
+    <color name="tools_test_color">#ffffff</color>
 
 </resources>

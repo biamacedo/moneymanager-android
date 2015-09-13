@@ -96,7 +96,7 @@ public class DatabaseSQLiteHelper extends SQLiteOpenHelper{
         db.execSQL(getInsertCategoryString("Credit Card", "Expense", "ic_credit_card"));
         db.execSQL(getInsertCategoryString("Super Market", "Expense", "ic_shopping_cart"));
         db.execSQL(getInsertCategoryString("Food", "Expense", "ic_cutlery"));
-        db.execSQL(getInsertCategoryString("Trasportation", "Expense", "ic_bus"));
+        db.execSQL(getInsertCategoryString("Trasportation", "Expense", "ic_car"));
         db.execSQL(getInsertCategoryString("Books", "Expense", "ic_book"));
         db.execSQL(getInsertCategoryString("Magazines", "Expense", "ic_bookmark"));
         db.execSQL(getInsertCategoryString("Comics", "Expense", "ic_comments"));
@@ -106,9 +106,10 @@ public class DatabaseSQLiteHelper extends SQLiteOpenHelper{
         db.execSQL(getInsertCategoryString("Shopping", "Expense", "ic_tags"));
         db.execSQL(getInsertCategoryString("Health", "Expense", "ic_medkit"));
         db.execSQL(getInsertCategoryString("Computer", "Expense", "ic_laptop"));
+        db.execSQL(getInsertCategoryString("Product", "Expense", "ic_gift"));
         db.execSQL(getInsertCategoryString("Cinema", "Expense", "ic_film"));
         db.execSQL(getInsertCategoryString("House", "Expense", "ic_home"));
-        db.execSQL(getInsertCategoryString("Cellphone", "Expense", "ic_mobile_phone"));
+        db.execSQL(getInsertCategoryString("Cellphone", "Expense", "ic_mobile"));
         db.execSQL(getInsertCategoryString("Light", "Expense", "ic_bolt"));
         db.execSQL(getInsertCategoryString("Others", "Expense", "ic_question"));
 

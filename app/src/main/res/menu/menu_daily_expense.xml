@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.macedo.moneymanager.ui.fragments.DailyExpensesFragment">
     <item android:id="@+id/action_delete_expense"
-          android:title="@string/action_delete_expense"
+          android:title="@string/action_delete"
           android:orderInCategory="100"
           android:icon="@drawable/ic_trash"
           app:showAsAction="always"/>

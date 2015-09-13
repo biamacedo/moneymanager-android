@@ -13,11 +13,11 @@
 
     <string name="action_new_expense">Add Expense</string>
     <string name="action_edit_expense">Edit Expense</string>
-    <string name="action_delete_expense">Delete Expense</string>
     <string name="action_daily_expenses">Daily Expenses</string>
     <string name="action_new_account">Add Account</string>
     <string name="action_edit_account">Edit Account</string>
-    <string name="action_delete_account">Delete Account</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
 
     <string name="action_settings">Settings</string>
 
@@ -85,7 +85,8 @@
         <item>N</item>
         <item>D</item>
     </string-array>
-    <string-array name="months_char2">
+
+    <string-array name="months_3char">
         <item>Jan</item>
         <item>Feb</item>
         <item>Mar</item>
@@ -99,4 +100,10 @@
         <item>Nov</item>
         <item>Dez</item>
     </string-array>
+
+    <!-- Notification Strings -->
+    <string name="notification_id">MONEY_NOTIFICATION</string>
+    <string name="notification_started">Starting Notification</string>
+    <string name="notification_stopped">Ending Notification</string>
+    <string name="notification_content">Remember to pay this bill today!</string>
 </resources>

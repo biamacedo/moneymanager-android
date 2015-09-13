@@ -49,10 +49,4 @@
         android:defaultValue="0.00"
         android:id="@+id/amountEditText"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/edit_account_save_account_button"
-        android:id="@+id/editAccountButton"/>
-
 </LinearLayout>
