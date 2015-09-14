@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by Beatriz on 06/09/2015.
  */
-public class Expense implements Parcelable {
+public class Operation implements Parcelable {
 
     private int mId;
     private String mTitle;
@@ -17,7 +17,7 @@ public class Expense implements Parcelable {
     private Float mAmount;
     private Date mDate;
 
-    public Expense(int id, String title, String description, Category category, Float amount, Date date) {
+    public Operation(int id, String title, String description, Category category, Float amount, Date date) {
         mId = id;
         mTitle = title;
         mDescription = description;
@@ -26,7 +26,7 @@ public class Expense implements Parcelable {
         mDate = date;
     }
 
-    public Expense(String title, String description, Category category, Float amount, Date date) {
+    public Operation(String title, String description, Category category, Float amount, Date date) {
         mId = -1;
         mTitle = title;
         mDescription = description;
@@ -104,18 +104,18 @@ public class Expense implements Parcelable {
     }
 
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<Expense> CREATOR = new Parcelable.Creator<Expense>() {
-        public Expense createFromParcel(Parcel in) {
-            return new Expense(in);
+    public static final Parcelable.Creator<Operation> CREATOR = new Parcelable.Creator<Operation>() {
+        public Operation createFromParcel(Parcel in) {
+            return new Operation(in);
         }
 
-        public Expense[] newArray(int size) {
-            return new Expense[size];
+        public Operation[] newArray(int size) {
+            return new Operation[size];
         }
     };
 
     // example constructor that takes a Parcel and gives you an object populated with it's values
-    private Expense(Parcel in) {
+    private Operation(Parcel in) {
         mId = in.readInt();
         mTitle = in.readString();
         mDescription = in.readString();

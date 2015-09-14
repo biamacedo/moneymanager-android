@@ -3,7 +3,7 @@ package com.macedo.moneymanager.models;
 /**
  * Created by Beatriz on 07/09/2015.
  */
-public class MonthExpense {
+public class MonthOperation {
 
     private String month;
     private Float amount;
@@ -11,7 +11,7 @@ public class MonthExpense {
     private Float winAmount;
     private Float lossAmount;
 
-    public MonthExpense(String month, Float amount, Float percentage, Float winAmount, Float lossAmount) {
+    public MonthOperation(String month, Float amount, Float percentage, Float winAmount, Float lossAmount) {
         this.month = month;
         this.amount = amount;
         this.percentage = percentage;

@@ -1,9 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.macedo.moneymanager.ui.fragments.DailyExpensesFragment">
-    <item android:id="@+id/action_new_account"
-          android:title="@string/action_new_expense"
+      tools:context="com.macedo.moneymanager.ui.fragments.DailyOperationsFragment">
+    <item android:id="@+id/action_new"
+          android:title="@string/action_new"
           android:orderInCategory="100"
           android:icon="@drawable/ic_plus"
           app:showAsAction="always"/>

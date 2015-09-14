@@ -4,8 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.macedo.moneymanager.models.Expense;
-import com.macedo.moneymanager.models.MonthExpense;
+import com.macedo.moneymanager.models.Operation;
+import com.macedo.moneymanager.models.MonthOperation;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,9 +16,9 @@ import java.util.TimeZone;
 /**
  * Created by Beatriz on 06/09/2015.
  */
-public class MonthExpensesDatasource {
+public class MonthOperationsDatasource {
 
-    public static final String TAG = MonthExpensesDatasource.class.getSimpleName();
+    public static final String TAG = MonthOperationsDatasource.class.getSimpleName();
 
     public static final String DB_DATE_FORMAT = "yyyy-MM-dd";
     public static final String MONTH_NAME_FORMAT = "MMMM";
@@ -28,7 +28,7 @@ public class MonthExpensesDatasource {
 
     public SimpleDateFormat mMonthNameFormatter = new SimpleDateFormat(MONTH_NAME_FORMAT);
 
-    public MonthExpensesDatasource(Context context) {
+    public MonthOperationsDatasource(Context context) {
         mContext = context;
         // Lazy Initialization
         mDatabaseSqlLiteHelper = new DatabaseSQLiteHelper(context);
@@ -46,8 +46,8 @@ public class MonthExpensesDatasource {
         database.close();
     }
 
-    public ArrayList<MonthExpense> readMonthExpense(int year){
-        ArrayList<MonthExpense> monthExpenses = new ArrayList<MonthExpense>();
+    public ArrayList<MonthOperation> readMonthExpense(int year){
+        ArrayList<MonthOperation> monthOperations = new ArrayList<MonthOperation>();
 
         for(int month = 0; month < 12; month++) {
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
@@ -72,15 +72,15 @@ public class MonthExpensesDatasource {
                 percentage = (-lossAmount / winAmount) * 100;
             }
 
-            MonthExpense newMonth = new MonthExpense(monthName, amount, percentage, winAmount, lossAmount);
+            MonthOperation newMonth = new MonthOperation(monthName, amount, percentage, winAmount, lossAmount);
 
-            monthExpenses.add(newMonth);
+            monthOperations.add(newMonth);
         }
 
-        return monthExpenses;
+        return monthOperations;
     }
 
-    public MonthExpense readYearExpense(int year){
+    public MonthOperation readYearExpense(int year){
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, 1);
@@ -105,18 +105,18 @@ public class MonthExpensesDatasource {
             percentage = (-lossAmount / winAmount) * 100;
         }
 
-        MonthExpense yearTotals = new MonthExpense(monthName, amount, percentage, winAmount, lossAmount);
+        MonthOperation yearTotals = new MonthOperation(monthName, amount, percentage, winAmount, lossAmount);
 
         return yearTotals;
     }
 
     public Float sumAllExpenses(){
         SQLiteDatabase database = open();
-        ArrayList<Expense> expenses = new ArrayList<Expense>();
+        ArrayList<Operation> operations = new ArrayList<Operation>();
         Float amount = 0.00f;
 
         Cursor cursor = database.rawQuery(
-                "SELECT SUM(T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE +" T", null);
+                "SELECT SUM(T." + DatabaseSQLiteHelper.COLUMN_OPERATION_AMOUNT + ") FROM " + DatabaseSQLiteHelper.OPERATIONS_TABLE +" T", null);
 
         if(cursor.moveToFirst()){
             do {
@@ -130,14 +130,14 @@ public class MonthExpensesDatasource {
 
     public Float sumAllExpensesInPeriod(Date fromDate, Date toDate){
         SQLiteDatabase database = open();
-        ArrayList<Expense> expenses = new ArrayList<Expense>();
+        ArrayList<Operation> operations = new ArrayList<Operation>();
         Float amount = 0.00f;
 
         long fromUnixTime = fromDate.getTime()/1000;
         long toUnixTime = toDate.getTime()/1000;
 
-        Cursor cursor = database.rawQuery("SELECT SUM(T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE + " T " +
-                " WHERE T." + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime, null);
+        Cursor cursor = database.rawQuery("SELECT SUM(T." + DatabaseSQLiteHelper.COLUMN_OPERATION_AMOUNT + ") FROM " + DatabaseSQLiteHelper.OPERATIONS_TABLE + " T " +
+                " WHERE T." + DatabaseSQLiteHelper.COLUMN_OPERATION_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime, null);
 
         if(cursor.moveToFirst()){
             do {
@@ -151,16 +151,16 @@ public class MonthExpensesDatasource {
 
     public Float sumAllPositiveAmountInPeriod(Date fromDate, Date toDate){
         SQLiteDatabase database = open();
-        ArrayList<Expense> expenses = new ArrayList<Expense>();
+        ArrayList<Operation> operations = new ArrayList<Operation>();
         Float amount = 0.00f;
 
         long fromUnixTime = fromDate.getTime()/1000;
         long toUnixTime = toDate.getTime()/1000;
 
         Cursor cursor = database.rawQuery(
-                "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE +
-                        " WHERE " + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + " > 0 " +
-                " AND " + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime, null);
+                "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_OPERATION_AMOUNT + ") FROM " + DatabaseSQLiteHelper.OPERATIONS_TABLE +
+                        " WHERE " + DatabaseSQLiteHelper.COLUMN_OPERATION_AMOUNT + " > 0 " +
+                " AND " + DatabaseSQLiteHelper.COLUMN_OPERATION_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime, null);
 
         if(cursor.moveToFirst()){
             do {
@@ -174,16 +174,16 @@ public class MonthExpensesDatasource {
 
     public Float sumAllNegativeAmountInPeriod(Date fromDate, Date toDate){
         SQLiteDatabase database = open();
-        ArrayList<Expense> expenses = new ArrayList<Expense>();
+        ArrayList<Operation> operations = new ArrayList<Operation>();
         Float amount = 0.00f;
 
         long fromUnixTime = fromDate.getTime()/1000;
         long toUnixTime = toDate.getTime()/1000;
 
         Cursor cursor = database.rawQuery(
-                "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + ") FROM " + DatabaseSQLiteHelper.EXPENSES_TABLE +
-                        " WHERE " + DatabaseSQLiteHelper.COLUMN_EXPENSE_AMOUNT + " < 0 " +
-                        " AND " + DatabaseSQLiteHelper.COLUMN_EXPENSE_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime, null);
+                "SELECT SUM(" + DatabaseSQLiteHelper.COLUMN_OPERATION_AMOUNT + ") FROM " + DatabaseSQLiteHelper.OPERATIONS_TABLE +
+                        " WHERE " + DatabaseSQLiteHelper.COLUMN_OPERATION_AMOUNT + " < 0 " +
+                        " AND " + DatabaseSQLiteHelper.COLUMN_OPERATION_DATE + " BETWEEN " + fromUnixTime + " AND " + toUnixTime, null);
 
         if(cursor.moveToFirst()){
             do {

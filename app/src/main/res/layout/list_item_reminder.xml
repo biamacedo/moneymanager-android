@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@android:color/transparent"
+              tools:background="@android:color/black">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/list_item_horizontal_margin"
+        android:layout_marginRight="@dimen/list_item_horizontal_margin"
+        android:layout_marginTop="@dimen/list_item_vertical_margin"
+        android:background="@color/content_bkg">
+
+        <ImageView
+            android:id="@+id/reminderIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:contentDescription="@string/image_content_desc_expense_icon"
+            android:src="@drawable/ic_calendar"
+            android:layout_alignParentTop="true"/>
+
+        <TextView
+            android:id="@+id/reminderNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:paddingTop="@dimen/vertical_padding"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/reminderIcon"
+            android:textSize="16sp"
+            android:maxLength="20"
+            tools:text="Reminder Name"
+            android:layout_toLeftOf="@+id/reminderDateLabel"
+            android:layout_toStartOf="@+id/reminderDateLabel"/>
+
+        <TextView
+            android:id="@+id/reminderDateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/vertical_padding"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            tools:text="05/13/1991"/>
+
+    </RelativeLayout>
+</LinearLayout>

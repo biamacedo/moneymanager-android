@@ -12,14 +12,17 @@ import android.widget.Toast;
 
 import com.macedo.moneymanager.R;
 import com.macedo.moneymanager.ui.fragments.AccountsFragment;
-import com.macedo.moneymanager.ui.fragments.DailyExpensesFragment;
+import com.macedo.moneymanager.ui.fragments.DailyOperationsFragment;
 import com.macedo.moneymanager.ui.fragments.DashboardFragment;
-import com.macedo.moneymanager.ui.fragments.MonthlyExpensesFragment;
+import com.macedo.moneymanager.ui.fragments.MonthlyOperationsFragment;
 import com.macedo.moneymanager.ui.fragments.NavigationDrawerFragment;
+import com.macedo.moneymanager.ui.fragments.ReminderFragment;
 import com.macedo.moneymanager.ui.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, AccountsFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        AccountsFragment.OnFragmentInteractionListener,
+        ReminderFragment.OnFragmentInteractionListener {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -71,18 +74,21 @@ public class MainActivity extends AppCompatActivity
                 break;
             case 2:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, DailyExpensesFragment.newInstance())
+                        .replace(R.id.container, DailyOperationsFragment.newInstance())
                         .commit();
                 mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 3:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, MonthlyExpensesFragment.newInstance())
+                        .replace(R.id.container, MonthlyOperationsFragment.newInstance())
                         .commit();
                 mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 4:
-                Toast.makeText(this, "Fragment Bill Reminders not Found", Toast.LENGTH_LONG).show();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, ReminderFragment.newInstance())
+                        .commit();
+                mTitle = drawerStrings[mFragmentPosition];
                 break;
             case 5:
                 Toast.makeText(this, "Fragment Pro Features not Found", Toast.LENGTH_LONG).show();
@@ -130,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         /*if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_daily_expenses) {
-            Intent intent = new Intent(MainActivity.this, DailyExpensesFragment.class);
+            Intent intent = new Intent(MainActivity.this, DailyOperationsFragment.class);
             startActivity(intent);
             return true;
         }*/

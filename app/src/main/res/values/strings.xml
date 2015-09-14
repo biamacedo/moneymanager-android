@@ -16,6 +16,7 @@
     <string name="action_daily_expenses">Daily Expenses</string>
     <string name="action_new_account">Add Account</string>
     <string name="action_edit_account">Edit Account</string>
+    <string name="action_new">New Item</string>
     <string name="action_delete">Delete</string>
     <string name="action_save">Save</string>
 
@@ -37,6 +38,7 @@
         <item>Daily Expenses</item>
         <item>Expenses By Month</item>
         <item>Bill Reminders</item>
+        <item>Budget Savings</item>
         <item>Pro Features</item>
         <item>Settings</item>
     </string-array>
@@ -53,7 +55,7 @@
     <string name="edit_expense_category_label">Category</string>
     <string name="edit_expense_amount_label">Amount</string>
     <string name="edit_expense_date_hint">Format: mm/dd/yyyy</string>
-    <string name="edit_expense_amount_hint">0.00</string>
+    <string name="edit_amount_hint">0.00</string>
     <string name="edit_expense_save_expense_button">Save Expense</string>
     <string name="edit_expense_date_label">Date</string>
     <string name="edit_expense_title_label">Title</string>

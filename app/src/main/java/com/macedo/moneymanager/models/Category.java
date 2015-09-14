@@ -7,7 +7,7 @@ public class Category {
 
     private int mId;
     private String mName;
-    private String mType; /*Account or Expense Category*/
+    private String mType; /*Account or Operation Category*/
     private String mIconName;
 
     public Category(int id) {

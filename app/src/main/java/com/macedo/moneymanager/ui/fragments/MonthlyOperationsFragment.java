@@ -13,17 +13,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.macedo.moneymanager.R;
-import com.macedo.moneymanager.adapters.MonthlyExpenseItemListAdapter;
-import com.macedo.moneymanager.database.MonthExpensesDatasource;
-import com.macedo.moneymanager.models.MonthExpense;
+import com.macedo.moneymanager.adapters.MonthlyOperationItemListAdapter;
+import com.macedo.moneymanager.database.MonthOperationsDatasource;
+import com.macedo.moneymanager.models.MonthOperation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MonthlyExpensesFragment extends Fragment {
+public class MonthlyOperationsFragment extends Fragment {
 
-    public static final String TAG = MonthlyExpensesFragment.class.getSimpleName();
+    public static final String TAG = MonthlyOperationsFragment.class.getSimpleName();
 
     public static final String EXPENSE_EXTRA = "EXPENSE";
     public static final String YEAR_LABEL = "Year Totals";
@@ -37,10 +37,10 @@ public class MonthlyExpensesFragment extends Fragment {
     TextView mLossAmount;
 
     public ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
-    ArrayList<MonthExpense> mMonthExpenses;
+    ArrayList<MonthOperation> mMonthOperations;
 
-    public static MonthlyExpensesFragment newInstance() {
-        return new MonthlyExpensesFragment();
+    public static MonthlyOperationsFragment newInstance() {
+        return new MonthlyOperationsFragment();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class MonthlyExpensesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_monthly_expenses, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_monthly_operations, container, false);
 
         mListView = (ListView) rootView.findViewById(R.id.listView);
         mYearItem = (ViewGroup) rootView.findViewById(R.id.yearItem);
@@ -67,8 +67,8 @@ public class MonthlyExpensesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
 
                 // TODO: On click show expense chart for the month
-                /*Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
-                Expense clickedExpense = mExpenses.get(position);
+                /*Intent intent = new Intent(getActivity(), EditOperationActivity.class);
+                Operation clickedExpense = mExpenses.get(position);
                 intent.putExtra(EXPENSE_EXTRA, clickedExpense);
                 startActivity(intent);*/
             }
@@ -90,11 +90,11 @@ public class MonthlyExpensesFragment extends Fragment {
     }
 
     public void refreshList(int year){
-        MonthExpensesDatasource datasource = new MonthExpensesDatasource(getActivity());
-        mMonthExpenses = datasource.readMonthExpense(year);
-        mListView.setAdapter(new MonthlyExpenseItemListAdapter(getActivity(), mMonthExpenses));
+        MonthOperationsDatasource datasource = new MonthOperationsDatasource(getActivity());
+        mMonthOperations = datasource.readMonthExpense(year);
+        mListView.setAdapter(new MonthlyOperationItemListAdapter(getActivity(), mMonthOperations));
 
-        MonthExpense yearTotals = datasource.readYearExpense(year);
+        MonthOperation yearTotals = datasource.readYearExpense(year);
 
         mMonthLabel.setText(YEAR_LABEL);
         mTotalAmount.setText("$" + String.format("%.2f", yearTotals.getAmount()));
@@ -106,7 +106,7 @@ public class MonthlyExpensesFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_monthly_expense, menu);
+        menuInflater.inflate(R.menu.menu_monthly_operation, menu);
 
     }
 

@@ -2,7 +2,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="com.macedo.moneymanager.ui.fragments.MonthlyExpensesFragment">
+                tools:context="com.macedo.moneymanager.ui.fragments.MonthlyOperationsFragment">
 
     <ListView
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         android:dividerHeight="0dp"
         android:layout_above="@+id/yearItem"/>
 
-    <include layout="@layout/list_item_total_monthly_expenses"
+    <include layout="@layout/list_item_total_monthly_operations"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:id="@+id/yearItem"

@@ -19,10 +19,10 @@ import android.widget.Toast;
 import com.macedo.moneymanager.R;
 import com.macedo.moneymanager.adapters.CategorySpinnerListAdapter;
 import com.macedo.moneymanager.database.CategoriesDatasource;
-import com.macedo.moneymanager.database.ExpensesDatasource;
+import com.macedo.moneymanager.database.OperationsDatasource;
 import com.macedo.moneymanager.models.Category;
-import com.macedo.moneymanager.models.Expense;
-import com.macedo.moneymanager.ui.fragments.DailyExpensesFragment;
+import com.macedo.moneymanager.models.Operation;
+import com.macedo.moneymanager.ui.fragments.DailyOperationsFragment;
 import com.macedo.moneymanager.ui.fragments.DatePickerFragment;
 
 import java.text.ParseException;
@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EditExpenseActivity extends AppCompatActivity {
+public class EditOperationActivity extends AppCompatActivity {
 
-    public static final String TAG = EditExpenseActivity.class.getSimpleName();
+    public static final String TAG = EditOperationActivity.class.getSimpleName();
 
     private EditText mTitleEditText;
     private EditText mDescriptionEditText;
@@ -41,7 +41,7 @@ public class EditExpenseActivity extends AppCompatActivity {
     private EditText mAmountEditText;
     private Spinner mCategorySpinner;
 
-    private Expense mCurrentExpense;
+    private Operation mCurrentOperation;
 
     public CategoriesDatasource categoriesDatasource = new CategoriesDatasource(this);
     private ArrayList<Category> mCategoryItems = new ArrayList<>();
@@ -51,7 +51,7 @@ public class EditExpenseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_expense);
+        setContentView(R.layout.activity_edit_operation);
 
         mTitleEditText = (EditText) findViewById(R.id.nameEditText);
         mDescriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
@@ -70,13 +70,13 @@ public class EditExpenseActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null){
-            mCurrentExpense = intent.getParcelableExtra(DailyExpensesFragment.EXPENSE_EXTRA);
-            if (mCurrentExpense != null) {
-                mTitleEditText.setText(mCurrentExpense.getTitle());
-                mDescriptionEditText.setText(mCurrentExpense.getDescription());
-                mAmountEditText.setText(String.valueOf(mCurrentExpense.getAmount()));
-                mDateEditText.setText(mDateFormatter.format(mCurrentExpense.getDate()));
-                mCategorySpinner.setSelection(adapter.getPosition(mCurrentExpense.getCategory()));
+            mCurrentOperation = intent.getParcelableExtra(DailyOperationsFragment.EXPENSE_EXTRA);
+            if (mCurrentOperation != null) {
+                mTitleEditText.setText(mCurrentOperation.getTitle());
+                mDescriptionEditText.setText(mCurrentOperation.getDescription());
+                mAmountEditText.setText(String.valueOf(mCurrentOperation.getAmount()));
+                mDateEditText.setText(mDateFormatter.format(mCurrentOperation.getDate()));
+                mCategorySpinner.setSelection(adapter.getPosition(mCurrentOperation.getCategory()));
             }
         }
 
@@ -133,21 +133,21 @@ public class EditExpenseActivity extends AppCompatActivity {
                 }
                 Category category = mCategoryItems.get(mCategorySpinner.getSelectedItemPosition());
 
-                if (mCurrentExpense == null) {
-                    mCurrentExpense = new Expense(title, description, category, amount, date);
+                if (mCurrentOperation == null) {
+                    mCurrentOperation = new Operation(title, description, category, amount, date);
                 } else {
-                    mCurrentExpense.setTitle(title);
-                    mCurrentExpense.setDescription(description);
-                    mCurrentExpense.setCategory(category);
-                    mCurrentExpense.setAmount(amount);
-                    mCurrentExpense.setDate(date);
+                    mCurrentOperation.setTitle(title);
+                    mCurrentOperation.setDescription(description);
+                    mCurrentOperation.setCategory(category);
+                    mCurrentOperation.setAmount(amount);
+                    mCurrentOperation.setDate(date);
                 }
 
                 saveExpense();
 
                 finish();
 
-                Toast.makeText(EditExpenseActivity.this, "Expense Saved!", Toast.LENGTH_LONG).show();
+                Toast.makeText(EditOperationActivity.this, "Operation Saved!", Toast.LENGTH_LONG).show();
             }
         }
         return super.onOptionsItemSelected(item);
@@ -155,7 +155,7 @@ public class EditExpenseActivity extends AppCompatActivity {
 
     public boolean validateFields(){
         if (mTitleEditText.getText().toString().equals("")||  mAmountEditText.getText().toString().equals("")){
-            Toast.makeText(EditExpenseActivity.this, "Please fill all mandatory fields!", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditOperationActivity.this, "Please fill all mandatory fields!", Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -164,7 +164,7 @@ public class EditExpenseActivity extends AppCompatActivity {
             mDateFormatter.setLenient(false);
             Date date = mDateFormatter.parse(inputDate);
         } catch (ParseException e) {
-            Toast.makeText(EditExpenseActivity.this, "Please input date in 'mm/dd/yyyy' format!", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditOperationActivity.this, "Please input date in 'mm/dd/yyyy' format!", Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -172,11 +172,11 @@ public class EditExpenseActivity extends AppCompatActivity {
     }
 
     public void saveExpense(){
-        ExpensesDatasource datasource = new ExpensesDatasource(this);
-        if(mCurrentExpense.getId() != -1){
-            datasource.update(mCurrentExpense);
+        OperationsDatasource datasource = new OperationsDatasource(this);
+        if(mCurrentOperation.getId() != -1){
+            datasource.update(mCurrentOperation);
         } else {
-            datasource.create(mCurrentExpense);
+            datasource.create(mCurrentOperation);
         }
     }
 

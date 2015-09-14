@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.macedo.moneymanager" >
 
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.EditExpenseActivity"
+            android:name=".ui.EditOperationActivity"
             android:label="@string/title_activity_new_expense"
             android:parentActivityName=".ui.MainActivity" >
             <meta-data

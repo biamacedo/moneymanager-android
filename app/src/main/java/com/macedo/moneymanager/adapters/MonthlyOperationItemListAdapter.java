@@ -8,36 +8,36 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.macedo.moneymanager.R;
-import com.macedo.moneymanager.models.MonthExpense;
+import com.macedo.moneymanager.models.MonthOperation;
 
 import java.util.List;
 
 /**
  * Created by Beatriz on 06/09/2015.
  */
-public class MonthlyExpenseItemListAdapter extends BaseAdapter {
+public class MonthlyOperationItemListAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<MonthExpense> mMonthExpenseItems;
+    private List<MonthOperation> mMonthOperationItems;
 
-    public MonthlyExpenseItemListAdapter(Context context, List<MonthExpense> monthExpenseItems) {
+    public MonthlyOperationItemListAdapter(Context context, List<MonthOperation> monthOperationItems) {
         this.mContext = context;
-        this.mMonthExpenseItems = monthExpenseItems;
+        this.mMonthOperationItems = monthOperationItems;
     }
 
     @Override
     public int getCount() {
-        return mMonthExpenseItems.size();
+        return mMonthOperationItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mMonthExpenseItems.get(position);
+        return mMonthOperationItems.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return mMonthExpenseItems.indexOf(getItem(position));
+        return mMonthOperationItems.indexOf(getItem(position));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MonthlyExpenseItemListAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_monthly_expenses, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_monthly_operations, null);
 
             holder = new ViewHolder();
             holder.monthLabel = (TextView) convertView.findViewById(R.id.monthLabel);
@@ -58,13 +58,13 @@ public class MonthlyExpenseItemListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        MonthExpense monthExpense = mMonthExpenseItems.get(position);
+        MonthOperation monthOperation = mMonthOperationItems.get(position);
 
-        holder.monthLabel.setText(monthExpense.getMonth());
-        holder.totalAmount.setText("$" + String.format("%.2f", monthExpense.getAmount()));
-        holder.expensePercentage.setText("(" + String.format("%.2f", monthExpense.getPercentage()) + "%)");
-        holder.winAmount.setText("$" + String.format("%.2f", monthExpense.getWinAmount()));
-        holder.lossAmount.setText("$" + String.format("%.2f", monthExpense.getLossAmount()));
+        holder.monthLabel.setText(monthOperation.getMonth());
+        holder.totalAmount.setText("$" + String.format("%.2f", monthOperation.getAmount()));
+        holder.expensePercentage.setText("(" + String.format("%.2f", monthOperation.getPercentage()) + "%)");
+        holder.winAmount.setText("$" + String.format("%.2f", monthOperation.getWinAmount()));
+        holder.lossAmount.setText("$" + String.format("%.2f", monthOperation.getLossAmount()));
 
         return convertView;
     }

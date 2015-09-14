@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.macedo.moneymanager.R;
-import com.macedo.moneymanager.models.Expense;
+import com.macedo.moneymanager.models.Operation;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,18 +23,18 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 /**
  * Created by Beatriz on 06/09/2015.
  */
-public class DailyExpenseItemListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+public class DailyOperationItemListAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     private Context mContext;
-    private List<Expense> mExpenseItems;
+    private List<Operation> mOperationItems;
     private List<Integer> mSelectedItems;
     private boolean mSelectMode;
 
     private final String HEADER_DATE_FORMAT = "MM/dd/yyyy";
 
-    public DailyExpenseItemListAdapter(Context context, List<Expense> expenseItems, List<Integer> selectedItems) {
+    public DailyOperationItemListAdapter(Context context, List<Operation> operationItems, List<Integer> selectedItems) {
         this.mContext = context;
-        this.mExpenseItems = expenseItems;
+        this.mOperationItems = operationItems;
         this.mSelectedItems = selectedItems;
         mSelectMode = false;
     }
@@ -45,17 +45,17 @@ public class DailyExpenseItemListAdapter extends BaseAdapter implements StickyLi
 
     @Override
     public int getCount() {
-        return mExpenseItems.size();
+        return mOperationItems.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mExpenseItems.get(position);
+        return mOperationItems.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return mExpenseItems.indexOf(getItem(position));
+        return mOperationItems.indexOf(getItem(position));
     }
 
     @Override
@@ -63,41 +63,41 @@ public class DailyExpenseItemListAdapter extends BaseAdapter implements StickyLi
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_daily_expenses, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.list_item_daily_operations, null);
 
             holder = new ViewHolder();
-            holder.expenseIcon = (ImageView) convertView.findViewById(R.id.categoryIcon);
-            holder.expenseTitleLabel = (TextView) convertView.findViewById(R.id.expenseTitleLabel);
-            holder.expenseAmountLabel = (TextView) convertView.findViewById(R.id.expenseAmountLabel);
+            holder.operationIcon = (ImageView) convertView.findViewById(R.id.categoryIcon);
+            holder.operationTitleLabel = (TextView) convertView.findViewById(R.id.expenseTitleLabel);
+            holder.operationAmountLabel = (TextView) convertView.findViewById(R.id.expenseAmountLabel);
             holder.backgroundLayout = (RelativeLayout) convertView.findViewById(R.id.backgroundLayout);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Expense expense = mExpenseItems.get(position);
+        Operation operation = mOperationItems.get(position);
 
         if (mSelectMode){
             if (mSelectedItems.contains(Integer.valueOf(position))){
-                holder.expenseIcon.setImageResource(R.drawable.ic_check_square);
+                holder.operationIcon.setImageResource(R.drawable.ic_check_square);
             } else {
-                holder.expenseIcon.setImageResource(R.drawable.ic_square);
+                holder.operationIcon.setImageResource(R.drawable.ic_square);
             }
         } else {
-            if (expense.getCategory().getIconName() != null) {
+            if (operation.getCategory().getIconName() != null) {
                 try {
-                    int iconDrawable = mContext.getResources().getIdentifier(expense.getCategory().getIconName(), "drawable", mContext.getPackageName());
-                    holder.expenseIcon.setImageResource(iconDrawable);
+                    int iconDrawable = mContext.getResources().getIdentifier(operation.getCategory().getIconName(), "drawable", mContext.getPackageName());
+                    holder.operationIcon.setImageResource(iconDrawable);
                 } catch (Exception e) {
-                    holder.expenseIcon.setImageResource(R.drawable.ic_question);
+                    holder.operationIcon.setImageResource(R.drawable.ic_question);
                 }
             } else {
-                holder.expenseIcon.setImageResource(R.drawable.ic_question);
+                holder.operationIcon.setImageResource(R.drawable.ic_question);
             }
         }
 
-        holder.expenseTitleLabel.setText(expense.getTitle());
-        holder.expenseAmountLabel.setText("$" + String.format("%.2f", expense.getAmount()));
+        holder.operationTitleLabel.setText(operation.getTitle());
+        holder.operationAmountLabel.setText("$" + String.format("%.2f", operation.getAmount()));
 
         if (isFooter(position)){
             holder.backgroundLayout.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.section_footer_background));
@@ -109,11 +109,11 @@ public class DailyExpenseItemListAdapter extends BaseAdapter implements StickyLi
     }
 
     private boolean isFooter(int position){
-        if (position == mExpenseItems.size()-1){
+        if (position == mOperationItems.size()-1){
             return true;
         }
-        Date currentExpenseDate = mExpenseItems.get(position).getDate();
-        Date nextExpenseDate = mExpenseItems.get(position+1).getDate();
+        Date currentExpenseDate = mOperationItems.get(position).getDate();
+        Date nextExpenseDate = mOperationItems.get(position+1).getDate();
 
         Calendar currentCalendar = Calendar.getInstance();
         currentCalendar.setTime(currentExpenseDate);
@@ -136,7 +136,7 @@ public class DailyExpenseItemListAdapter extends BaseAdapter implements StickyLi
         HeaderViewHolder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.section_header_daily_expenses, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.section_header_daily_operations, null);
 
             holder = new HeaderViewHolder();
             holder.headerLabel = (TextView) convertView.findViewById(R.id.headerLabel);
@@ -145,22 +145,22 @@ public class DailyExpenseItemListAdapter extends BaseAdapter implements StickyLi
             holder = (HeaderViewHolder) convertView.getTag();
         }
 
-        Expense expense = mExpenseItems.get(position);
+        Operation operation = mOperationItems.get(position);
         SimpleDateFormat headerFormatter = new SimpleDateFormat(HEADER_DATE_FORMAT);
-        holder.headerLabel.setText(headerFormatter.format(expense.getDate()));
+        holder.headerLabel.setText(headerFormatter.format(operation.getDate()));
 
         return convertView;
     }
 
     @Override
     public long getHeaderId(int position) {
-        return mExpenseItems.get(position).getDate().getTime()/1000;
+        return mOperationItems.get(position).getDate().getTime()/1000;
     }
 
     private static class ViewHolder {
-        ImageView expenseIcon;
-        TextView expenseTitleLabel;
-        TextView expenseAmountLabel;
+        ImageView operationIcon;
+        TextView operationTitleLabel;
+        TextView operationAmountLabel;
         RelativeLayout backgroundLayout;
     }
 

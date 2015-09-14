@@ -1,9 +1,11 @@
 package com.macedo.moneymanager.ui.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -14,90 +16,95 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.macedo.moneymanager.R;
-import com.macedo.moneymanager.adapters.DailyExpenseItemListAdapter;
-import com.macedo.moneymanager.database.ExpensesDatasource;
-import com.macedo.moneymanager.models.Expense;
-import com.macedo.moneymanager.ui.EditExpenseActivity;
+import com.macedo.moneymanager.adapters.ReminderItemListAdapter;
+import com.macedo.moneymanager.database.RemindersDatasource;
+import com.macedo.moneymanager.models.Reminder;
 
 import java.util.ArrayList;
 
-import se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link ReminderFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link ReminderFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class ReminderFragment extends Fragment {
 
-public class DailyExpensesFragment extends Fragment {
+    public static final String REMINDER_EXTRA = "REMINDER";
 
-    private static final String TAG = DailyExpensesFragment.class.getSimpleName();
-
-    public static final String EXPENSE_EXTRA = "EXPENSE";
-
-    private ExpandableStickyListHeadersListView mExpandableStickyList;
-    private TextView mTotalAmountTextView;
+    private ListView mListView;
 
     private ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
-    private ArrayList<Expense> mExpenses;
+    private ArrayList<Reminder> mReminders;
 
-    private DailyExpenseItemListAdapter mAdapter;
+    private ReminderItemListAdapter mAdapter;
 
-    public static DailyExpensesFragment newInstance() {
-        return new DailyExpensesFragment();
+    private Vibrator mVib;
+
+    private OnFragmentInteractionListener mListener;
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @return A new instance of fragment AccountsFragment.
+     */
+    public static ReminderFragment newInstance() {
+        return new ReminderFragment();
+    }
+
+    public ReminderFragment() {
+        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        mVib = (Vibrator) getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_daily_expenses, container, false);
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_reminders, container, false);
 
-        mExpandableStickyList = (ExpandableStickyListHeadersListView) rootView.findViewById(R.id.listView);
-        mTotalAmountTextView = (TextView) rootView.findViewById(R.id.totalAmount);
-
-        mExpandableStickyList.setOnHeaderClickListener(new StickyListHeadersListView.OnHeaderClickListener() {
-            @Override
-            public void onHeaderClick(StickyListHeadersListView l, View header, int itemPosition, long headerId, boolean currentlySticky) {
-                if (mExpandableStickyList.isHeaderCollapsed(headerId)) {
-                    mExpandableStickyList.expand(headerId);
-                } else {
-                    mExpandableStickyList.collapse(headerId);
-                }
-            }
-        });
-
-        mExpandableStickyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView = (ListView) rootView.findViewById(R.id.listView);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
-                Expense clickedExpense = mExpenses.get(position);
-                intent.putExtra(EXPENSE_EXTRA, clickedExpense);
-                startActivity(intent);
+                /*Intent intent = new Intent(getActivity(), EditReminderActivity.class);
+                Reminder clickedReminder = mReminders.get(position);
+                intent.putExtra(REMINDER_EXTRA, clickedReminder);
+                startActivity(intent);*/
             }
         });
 
-        mExpandableStickyList.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-        mExpandableStickyList.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+        mListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        mListView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 // Here you can do something when items are selected/de-selected,
                 // such as update the title in the CAB
-                final int checkedCount = mExpandableStickyList.getCheckedItemCount();
+                mVib.vibrate(50);
+                final int checkedCount = mListView.getCheckedItemCount();
                 switch (checkedCount) {
                     case 0:
                         mode.setSubtitle(null);
                         break;
                     case 1:
-                        mode.setSubtitle("One expenses selected");
+                        mode.setSubtitle("One reminder selected");
                         break;
                     default:
-                        mode.setSubtitle(checkedCount + " expenses selected");
+                        mode.setSubtitle(checkedCount + " reminders selected");
                         break;
                 }
 
@@ -127,7 +134,7 @@ public class DailyExpensesFragment extends Fragment {
                 // Inflate the menu for the CAB
                 MenuInflater inflater = mode.getMenuInflater();
                 inflater.inflate(R.menu.menu_list_context, menu);
-                mode.setTitle("Select Expenses");
+                mode.setTitle("Select Reminders");
                 mAdapter.setSelectMode(true);
                 mAdapter.notifyDataSetChanged();
                 return true;
@@ -161,10 +168,9 @@ public class DailyExpensesFragment extends Fragment {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // continue with delete
-                            ExpensesDatasource datasource = new ExpensesDatasource(getActivity());
-                            for(Integer i : mSelectedItems){
-                                datasource.delete(mExpenses.get(i).getId());
-                                refreshList();
+                            RemindersDatasource datasource = new RemindersDatasource(getActivity());
+                            for (Integer i : mSelectedItems) {
+                                datasource.delete(mReminders.get(i).getId());
                             }
                             mSelectedItems.clear();
                         }
@@ -190,36 +196,66 @@ public class DailyExpensesFragment extends Fragment {
     }
 
     public void refreshList(){
-        ExpensesDatasource datasource = new ExpensesDatasource(getActivity());
-        mExpenses = datasource.read();
-        mAdapter = new DailyExpenseItemListAdapter(getActivity(), mExpenses, mSelectedItems);
-        mExpandableStickyList.setAdapter(mAdapter);
-        mTotalAmountTextView.setText("$" + String.format("%.2f", datasource.sumAllExpenses()));
+        RemindersDatasource datasource = new RemindersDatasource(getActivity());
+        mReminders = datasource.read();
+        mAdapter = new ReminderItemListAdapter(getActivity(), mReminders, mSelectedItems);
+        mListView.setAdapter(mAdapter);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_daily_expense, menu);
+        menuInflater.inflate(R.menu.menu_list, menu);
         super.onCreateOptionsMenu(menu, menuInflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_new_expense) {
-            Intent intent = new Intent(getActivity(), EditExpenseActivity.class);
-            startActivity(intent);
+        if (id == R.id.action_new) {
+            //Intent intent = new Intent(getActivity(), EditReminderActivity.class);
+            //startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(Uri uri);
+    }
 
 }

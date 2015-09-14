@@ -20,7 +20,7 @@ public class CategoriesDatasource {
     private DatabaseSQLiteHelper mDatabaseSqlLiteHelper;
 
     public static final String CATEGORY_TYPE_ACCOUNT = "Account";
-    public static final String CATEGORY_TYPE_EXPENSE = "Expense";
+    public static final String CATEGORY_TYPE_EXPENSE = "Operation";
 
     public CategoriesDatasource(Context context) {
         mContext = context;

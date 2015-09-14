@@ -3,7 +3,7 @@ package com.macedo.moneymanager.models;
 import android.content.Context;
 
 import com.macedo.moneymanager.database.AccountsDatasource;
-import com.macedo.moneymanager.database.ExpensesDatasource;
+import com.macedo.moneymanager.database.OperationsDatasource;
 
 /**
  * Created by Beatriz on 08/09/2015.
@@ -11,7 +11,7 @@ import com.macedo.moneymanager.database.ExpensesDatasource;
 public class CheckManager {
 
     private AccountsDatasource mAccountsDatasource;
-    private ExpensesDatasource mExpensesDatasource;
+    private OperationsDatasource mOperationsDatasource;
     private Context mContext;
 
     private Float accountsTotalAmount;
@@ -24,7 +24,7 @@ public class CheckManager {
     public CheckManager(Context context){
         mContext = context;
         mAccountsDatasource = new AccountsDatasource(mContext);
-        mExpensesDatasource = new ExpensesDatasource(mContext);
+        mOperationsDatasource = new OperationsDatasource(mContext);
     }
 
     public Float getAccountsTotalAmount() {
@@ -41,7 +41,7 @@ public class CheckManager {
 
     public boolean verifyMatchAccountExpenses(){
         accountsTotalAmount = mAccountsDatasource.sumAllAccounts();
-        expensesTotalAmount = mExpensesDatasource.sumAllExpenses();
+        expensesTotalAmount = mOperationsDatasource.sumAllExpenses();
         differenceAmount = 0.00f;
 
         if (accountsTotalAmount.equals(expensesTotalAmount)){

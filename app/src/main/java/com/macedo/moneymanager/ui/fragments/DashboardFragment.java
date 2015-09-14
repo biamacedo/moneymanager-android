@@ -24,10 +24,10 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.macedo.moneymanager.R;
-import com.macedo.moneymanager.database.ExpensesDatasource;
-import com.macedo.moneymanager.database.MonthExpensesDatasource;
+import com.macedo.moneymanager.database.OperationsDatasource;
+import com.macedo.moneymanager.database.MonthOperationsDatasource;
 import com.macedo.moneymanager.models.CheckManager;
-import com.macedo.moneymanager.models.MonthExpense;
+import com.macedo.moneymanager.models.MonthOperation;
 import com.macedo.moneymanager.utils.AmountFormatter;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class DashboardFragment extends Fragment {
 
     LineChart mLineChart;
 
-    ExpensesDatasource mExpensesDatasource;
+    OperationsDatasource mOperationsDatasource;
     CheckManager mCheckManager;
 
     public static DashboardFragment newInstance() {
@@ -76,7 +76,7 @@ public class DashboardFragment extends Fragment {
         mCheckTextView  = (TextView) rootView.findViewById(R.id.checkTextView);
         mLineChart = (LineChart) rootView.findViewById(R.id.lineChart);
 
-        mExpensesDatasource = new ExpensesDatasource(getActivity());
+        mOperationsDatasource = new OperationsDatasource(getActivity());
 
         updateDashboard();
         verifyAmounts();
@@ -112,15 +112,15 @@ public class DashboardFragment extends Fragment {
     }
 
     public void setupLineChart(){
-        MonthExpensesDatasource monthExpensesDatasource = new MonthExpensesDatasource(getActivity());
-        ArrayList<MonthExpense> monthExpenses = monthExpensesDatasource.readMonthExpense(getCurrentYear());
+        MonthOperationsDatasource monthOperationsDatasource = new MonthOperationsDatasource(getActivity());
+        ArrayList<MonthOperation> monthOperations = monthOperationsDatasource.readMonthExpense(getCurrentYear());
 
         String[] monthValues = getActivity().getResources().getStringArray(R.array.months_char);
         ArrayList<String> chartXValues = new ArrayList<String>( Arrays.asList(monthValues));
 
         ArrayList<Entry> monthTotalValues = new ArrayList<Entry>();
-        for (int i = 0; i < monthExpenses.size(); i++){
-            Entry newEntry = new Entry(monthExpenses.get(i).getAmount(), i);
+        for (int i = 0; i < monthOperations.size(); i++){
+            Entry newEntry = new Entry(monthOperations.get(i).getAmount(), i);
             monthTotalValues.add(newEntry);
         }
 
@@ -181,7 +181,7 @@ public class DashboardFragment extends Fragment {
     }
 
     public void updateDashboard(){
-        Float balance = mExpensesDatasource.sumAllExpenses();
+        Float balance = mOperationsDatasource.sumAllExpenses();
         mBalanceTextView.setText("$" + String.format("%.2f", balance));
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
