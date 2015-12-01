@@ -3,6 +3,7 @@ package com.macedo.moneymanager.ui.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -23,6 +24,8 @@ import com.macedo.moneymanager.R;
 import com.macedo.moneymanager.adapters.ReminderItemListAdapter;
 import com.macedo.moneymanager.database.RemindersDatasource;
 import com.macedo.moneymanager.models.Reminder;
+import com.macedo.moneymanager.notification.BillAlarmManager;
+import com.macedo.moneymanager.ui.EditReminderActivity;
 
 import java.util.ArrayList;
 
@@ -36,14 +39,14 @@ import java.util.ArrayList;
  */
 public class ReminderFragment extends Fragment {
 
-    public static final String REMINDER_EXTRA = "REMINDER";
-
     private ListView mListView;
 
     private ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();
     private ArrayList<Reminder> mReminders;
 
     private ReminderItemListAdapter mAdapter;
+
+    private BillAlarmManager mBillAlarmManager;
 
     private Vibrator mVib;
 
@@ -69,6 +72,7 @@ public class ReminderFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mVib = (Vibrator) getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
+        mBillAlarmManager = new BillAlarmManager(getActivity());
     }
 
     @Override
@@ -80,10 +84,10 @@ public class ReminderFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                /*Intent intent = new Intent(getActivity(), EditReminderActivity.class);
+                Intent intent = new Intent(getActivity(), EditReminderActivity.class);
                 Reminder clickedReminder = mReminders.get(position);
-                intent.putExtra(REMINDER_EXTRA, clickedReminder);
-                startActivity(intent);*/
+                intent.putExtra(Reminder.REMINDER_EXTRA, clickedReminder);
+                startActivity(intent);
             }
         });
 
@@ -171,6 +175,7 @@ public class ReminderFragment extends Fragment {
                             RemindersDatasource datasource = new RemindersDatasource(getActivity());
                             for (Integer i : mSelectedItems) {
                                 datasource.delete(mReminders.get(i).getId());
+                                mBillAlarmManager.removeAlarm(mReminders.get(i));
                             }
                             mSelectedItems.clear();
                         }
@@ -213,8 +218,8 @@ public class ReminderFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_new) {
-            //Intent intent = new Intent(getActivity(), EditReminderActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(getActivity(), EditReminderActivity.class);
+            startActivity(intent);
             return true;
         }
 

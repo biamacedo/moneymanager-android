@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ReminderItemListAdapter extends BaseAdapter {
 
-    private final String HEADER_DATE_FORMAT = "MM/dd/yyyy";
+    private final String DATE_FORMAT = "MM/dd/yyyy";
 
     private Context mContext;
     private List<Reminder> mReminderItems;
@@ -81,8 +81,8 @@ public class ReminderItemListAdapter extends BaseAdapter {
         }
 
         holder.reminderNameLabel.setText(reminder.getName());
-        SimpleDateFormat headerFormatter = new SimpleDateFormat(HEADER_DATE_FORMAT);
-        holder.reminderDateLabel.setText(headerFormatter.format(reminder.getDate()));
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
+        holder.reminderDateLabel.setText(dateFormatter.format(reminder.getStartDate()));
 
         return convertView;
     }

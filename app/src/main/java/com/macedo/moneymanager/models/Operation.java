@@ -10,6 +10,8 @@ import java.util.Date;
  */
 public class Operation implements Parcelable {
 
+    public static final String OPERATION_EXTRA = "OPERATION";
+
     private int mId;
     private String mTitle;
     private String mDescription;

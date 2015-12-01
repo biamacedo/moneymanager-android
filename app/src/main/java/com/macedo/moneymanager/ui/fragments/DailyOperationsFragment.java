@@ -33,8 +33,6 @@ public class DailyOperationsFragment extends Fragment {
 
     private static final String TAG = DailyOperationsFragment.class.getSimpleName();
 
-    public static final String EXPENSE_EXTRA = "EXPENSE";
-
     private ExpandableStickyListHeadersListView mExpandableStickyList;
     private TextView mTotalAmountTextView;
 
@@ -81,7 +79,7 @@ public class DailyOperationsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
                 Intent intent = new Intent(getActivity(), EditOperationActivity.class);
                 Operation clickedOperation = mOperations.get(position);
-                intent.putExtra(EXPENSE_EXTRA, clickedOperation);
+                intent.putExtra(Operation.OPERATION_EXTRA, clickedOperation);
                 startActivity(intent);
             }
         });

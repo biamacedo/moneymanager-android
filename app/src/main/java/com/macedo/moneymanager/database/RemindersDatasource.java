@@ -10,7 +10,6 @@ import com.macedo.moneymanager.models.Reminder;
 import com.macedo.moneymanager.utils.DatabaseUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Beatriz on 06/09/2015.
@@ -51,7 +50,9 @@ public class RemindersDatasource {
                 DatabaseSQLiteHelper.REMINDERS_TABLE,
                 new String[]{   BaseColumns._ID,
                         DatabaseSQLiteHelper.COLUMN_REMINDER_NAME,
-                        DatabaseSQLiteHelper.COLUMN_REMINDER_DATE},
+                        DatabaseSQLiteHelper.COLUMN_REMINDER_START_DATE,
+                        DatabaseSQLiteHelper.COLUMN_REMINDER_END_DATE,
+                        DatabaseSQLiteHelper.COLUMN_REMINDER_NEXT_ALERT_DATE},
                 null, // Selection
                 null, // Selection args
                 null, // Group By
@@ -62,7 +63,9 @@ public class RemindersDatasource {
             do {
                 Reminder reminder = new Reminder(DatabaseUtils.getIntFromColumnName(cursor, BaseColumns._ID),
                         DatabaseUtils.getStringFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_REMINDER_NAME),
-                        new Date(DatabaseUtils.getIntFromColumnName(cursor, DatabaseSQLiteHelper.COLUMN_REMINDER_DATE)));
+                        DatabaseUtils.getDateFromColumnNameInUnixTime(cursor, DatabaseSQLiteHelper.COLUMN_REMINDER_START_DATE),
+                        DatabaseUtils.getDateFromColumnNameInUnixTime(cursor, DatabaseSQLiteHelper.COLUMN_REMINDER_END_DATE),
+                        DatabaseUtils.getDateFromColumnNameInUnixTime(cursor, DatabaseSQLiteHelper.COLUMN_REMINDER_NEXT_ALERT_DATE));
 
                 reminders.add(reminder);
             } while(cursor.moveToNext());
@@ -78,7 +81,9 @@ public class RemindersDatasource {
 
         ContentValues updateReminderValues = new ContentValues();
         updateReminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_NAME, reminder.getName());
-        updateReminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_DATE, reminder.getDate().getTime());
+        updateReminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_START_DATE, reminder.getStartDate().getTime()/1000);
+        updateReminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_END_DATE, reminder.getEndDate().getTime()/1000);
+        updateReminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_NEXT_ALERT_DATE, reminder.getStartDate().getTime()/1000);
 
         database.update(DatabaseSQLiteHelper.REMINDERS_TABLE,
                 updateReminderValues,
@@ -102,14 +107,16 @@ public class RemindersDatasource {
         close(database);
     }
 
-    public void create(Reminder reminder){
+    public long create(Reminder reminder){
         SQLiteDatabase database = open();
         database.beginTransaction();
 
         // Implementation details
         ContentValues reminderValues = new ContentValues();
         reminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_NAME, reminder.getName());
-        reminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_DATE, reminder.getDate().getTime());
+        reminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_START_DATE, reminder.getStartDate().getTime()/1000);
+        reminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_END_DATE, reminder.getEndDate().getTime()/1000);
+        reminderValues.put(DatabaseSQLiteHelper.COLUMN_REMINDER_NEXT_ALERT_DATE, reminder.getNextAlertDate().getTime() / 1000);
 
         long reminderID = database.insert(DatabaseSQLiteHelper.REMINDERS_TABLE, null, reminderValues);
 
@@ -117,5 +124,6 @@ public class RemindersDatasource {
         database.endTransaction();
         close(database);
 
+        return reminderID;
     }
 }

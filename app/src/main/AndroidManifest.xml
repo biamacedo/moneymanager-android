@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.macedo.moneymanager" >
 
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <!-- Haptic Feedback for long press on lists -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Bill Alarm Receiver -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -33,6 +36,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
+        <activity
+            android:name=".ui.EditReminderActivity"
+            android:label="@string/title_activity_edit_reminder" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+        <!-- Bill Alarm Receiver to restart all alarms after boot -->
+        <receiver android:name=".notification.AlarmRestarter" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

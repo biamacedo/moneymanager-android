@@ -17,7 +17,6 @@ import com.macedo.moneymanager.database.AccountsDatasource;
 import com.macedo.moneymanager.database.CategoriesDatasource;
 import com.macedo.moneymanager.models.Account;
 import com.macedo.moneymanager.models.Category;
-import com.macedo.moneymanager.ui.fragments.AccountsFragment;
 
 import java.util.ArrayList;
 
@@ -50,7 +49,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null){
-            mCurrentAccount = intent.getParcelableExtra(AccountsFragment.ACCOUNT_EXTRA);
+            mCurrentAccount = intent.getParcelableExtra(Account.ACCOUNT_EXTRA);
             if (mCurrentAccount != null) {
                 mNameEditText.setText(mCurrentAccount.getName());
                 mAmountEditText.setText(String.valueOf(mCurrentAccount.getAmount()));

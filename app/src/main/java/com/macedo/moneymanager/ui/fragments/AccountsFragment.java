@@ -39,9 +39,6 @@ import java.util.ArrayList;
  */
 public class AccountsFragment extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    public static final String ACCOUNT_EXTRA = "ACCOUNT";
-
     private ListView mListView;
     private TextView mTotalAmountTextView;
 
@@ -92,7 +89,7 @@ public class AccountsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
                 Intent intent = new Intent(getActivity(), EditAccountActivity.class);
                 Account clickedAccount = mAccounts.get(position);
-                intent.putExtra(ACCOUNT_EXTRA, clickedAccount);
+                intent.putExtra(Account.ACCOUNT_EXTRA, clickedAccount);
                 startActivity(intent);
             }
         });

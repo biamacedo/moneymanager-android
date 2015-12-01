@@ -8,6 +8,8 @@ import android.os.Parcelable;
  */
 public class Account implements Parcelable{
 
+    public static final String ACCOUNT_EXTRA = "ACCOUNT";
+
     private int mId;
     private String mName;
     private Category mCategory;

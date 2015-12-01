@@ -8,21 +8,31 @@ import java.util.Date;
 /**
  * Created by Beatriz on 13/09/2015.
  */
-public class Reminder {
+public class Reminder implements Parcelable {
+
+    public static final String REMINDER_EXTRA = "REMINDER";
 
     private int mId;
     private String mName;
-    private Date mDate;
+    private Date mStartDate;
+    private Date mEndDate;
+    private Date mNextAlertDate;
 
-    public Reminder(int id, String name, Date date) {
+    public Reminder(int id, String name, Date startDate, Date endDate, Date nextAlertDate) {
         mId = id;
         mName = name;
-        mDate = date;
+        mStartDate = startDate;
+        mEndDate = endDate;
+        mNextAlertDate = nextAlertDate;
     }
 
-    public Reminder(String name, Date date) {
-        this.mName = name;
-        this.mDate = date;
+    // Constructor for new reminder, the next alert date will be the start date
+    public Reminder(String name, Date startDate, Date endDate) {
+        mId = -1;
+        mName = name;
+        mStartDate = startDate;
+        mEndDate = endDate;
+        mNextAlertDate = startDate;
     }
 
     public int getId() {
@@ -38,18 +48,34 @@ public class Reminder {
     }
 
     public void setName(String name) {
-        this.mName = name;
+        mName = name;
     }
 
-    public Date getDate() {
-        return mDate;
+    public Date getStartDate() {
+        return mStartDate;
     }
 
-    public void setDate(Date date) {
-        this.mDate = date;
+    public void setStartDate(Date startDate) {
+        mStartDate = startDate;
     }
 
-        /* everything below here is for implementing Parcelable */
+    public Date getEndDate() {
+        return mEndDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        mEndDate = endDate;
+    }
+
+    public Date getNextAlertDate() {
+        return mNextAlertDate;
+    }
+
+    public void setNextAlertDate(Date nextAlertDate) {
+        mNextAlertDate = nextAlertDate;
+    }
+
+    /* everything below here is for implementing Parcelable */
 
     // 99.9% of the time you can just ignore this
     public int describeContents() {
@@ -60,7 +86,9 @@ public class Reminder {
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(mId);
         out.writeString(mName);
-        out.writeLong(mDate.getTime());
+        out.writeLong(mStartDate.getTime());
+        out.writeLong(mEndDate.getTime());
+        out.writeLong(mNextAlertDate.getTime());
     }
 
     // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
@@ -78,7 +106,9 @@ public class Reminder {
     private Reminder(Parcel in) {
         mId = in.readInt();
         mName = in.readString();
-        mDate.setTime(in.readLong());
+        mStartDate = new Date((long) in.readLong()*1000);
+        mEndDate = new Date((long) in.readLong()*1000);
+        mNextAlertDate = new Date((long) in.readLong()*1000);
     }
 }
 

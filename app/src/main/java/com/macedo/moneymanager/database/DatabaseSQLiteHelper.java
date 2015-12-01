@@ -70,12 +70,16 @@ public class DatabaseSQLiteHelper extends SQLiteOpenHelper{
     /***************** Reminders Table Information *****************/
     public static final String REMINDERS_TABLE = "REMINDERS";
     public static final String COLUMN_REMINDER_NAME = "NAME";
-    public static final String COLUMN_REMINDER_DATE = "DATE";
+    public static final String COLUMN_REMINDER_START_DATE = "START_DATE";
+    public static final String COLUMN_REMINDER_END_DATE = "END_DATE";
+    public static final String COLUMN_REMINDER_NEXT_ALERT_DATE = "NEXT_ALERT_DATE";
     public final String CREATE_REMINDERS =
             "CREATE TABLE " + REMINDERS_TABLE + " (" +
                     BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_REMINDER_NAME + " TEXT, " +
-                    COLUMN_REMINDER_DATE + " TEXT)";
+                    COLUMN_REMINDER_START_DATE + " INTEGER, " +
+                    COLUMN_REMINDER_END_DATE + " INTEGER, " +
+                    COLUMN_REMINDER_NEXT_ALERT_DATE + " INTEGER)";
 
     public DatabaseSQLiteHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);

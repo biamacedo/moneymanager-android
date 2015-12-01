@@ -22,7 +22,6 @@ import com.macedo.moneymanager.database.CategoriesDatasource;
 import com.macedo.moneymanager.database.OperationsDatasource;
 import com.macedo.moneymanager.models.Category;
 import com.macedo.moneymanager.models.Operation;
-import com.macedo.moneymanager.ui.fragments.DailyOperationsFragment;
 import com.macedo.moneymanager.ui.fragments.DatePickerFragment;
 
 import java.text.ParseException;
@@ -70,7 +69,7 @@ public class EditOperationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null){
-            mCurrentOperation = intent.getParcelableExtra(DailyOperationsFragment.EXPENSE_EXTRA);
+            mCurrentOperation = intent.getParcelableExtra(Operation.OPERATION_EXTRA);
             if (mCurrentOperation != null) {
                 mTitleEditText.setText(mCurrentOperation.getTitle());
                 mDescriptionEditText.setText(mCurrentOperation.getDescription());

@@ -26,6 +26,8 @@
     <string name="title_activity_daily_expense">Daily Expenses</string>
     <string name="title_activity_monthly_expense">Monthly Expenses</string>
     <string name="title_activity_edit_account">Edit Account</string>
+    <string name="title_activity_edit_reminder">Edit Reminder</string>
+
 
     <string name="image_content_desc_down_arrow">Down Arrow Icon</string>
     <string name="image_content_desc_up_arrow">Up Arrow Icon</string>
@@ -65,6 +67,10 @@
     <string name="edit_account_category_label">Category</string>
     <string name="edit_account_amount_label">Amount</string>
     <string name="edit_account_save_account_button">Save Account</string>
+
+    <string name="edit_reminder_name_label">Name</string>
+    <string name="edit_reminder_start_date_label">Alert Date (Repeting Each Month)</string>
+    <string name="edit_reminder_end_date_label">End Alert Date (Optional)</string>
 
     <string name="footer_total_label">Total:</string>
 
